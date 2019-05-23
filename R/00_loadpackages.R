@@ -1,0 +1,10 @@
+# load all packages for Guana Project
+library(tidyverse)
+library(lubridate)
+library(knitr)
+library(gridExtra)
+library(scales)
+library(plotly)
+library(psych)
+library(readxl)
+library(rmarkdown)
