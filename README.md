@@ -8,3 +8,5 @@ The goal of this project is to develop a report of the first two years of data c
 * summary tables
 * data visualizations
 * report
+
+![](Guana10sites.png)
