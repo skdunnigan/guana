@@ -6,7 +6,7 @@
 # This is primarily due to the stations taking on different names throughout the sampling process.
 
 # first look at all the different station names
-unique(dat$stationcode)
+unique(dat$station_code)
 
 # these are what we want to rename, in order of latitude
 # SPECIAL NOTE: Lake Middle is also FDEP Lake 3 and Guana River is also FDEP River 2
@@ -48,14 +48,14 @@ siteID <- bind_cols("Micklers" = Micklers,
                     "FDEP River 1" = FDEPRiver1,
                     "Guana River" = GuanaRiver,
                     "FDEP River 3" = FDEPRiver3) %>%
-  gather(key = "site", value = "stationcode")
+  gather(key = "site", value = "station_code")
 
 # remove the vectors
 rm(Micklers, LakeMiddle, LakeSouth, RiverNorth, GuanaRiver,
    FDEPLake1, FDEPLake2, FDEPLake4, FDEPRiver1, FDEPRiver3)
 
 # merge site names with dataframe
-dat2 <- merge(dat, siteID, by="stationcode", all.x=TRUE)
+dat2 <- merge(dat, siteID, by="station_code", all.x=TRUE)
 
 # ------------------------------------------------------
 # add information on WBID
@@ -71,13 +71,13 @@ River <- c("GTMDSNUT", "GTMRNNUT","GTMGRNUT", "GTMGR1NUT",
 
 # bind the vectors into a data frame
 WBID <- bind_cols("Lake" = Lake, "River" = River) %>%
-  gather(key = "WBID", value = "stationcode")
+  gather(key = "WBID", value = "station_code")
 
 # remove the vectors
 rm(Lake,River)
 
 # merge site names with dataframe
-dat2 <- merge(dat2, WBID, by="stationcode", all.x=TRUE)
+dat2 <- merge(dat2, WBID, by="station_code", all.x=TRUE)
 
 # remove the duplicate samples (also given NA as site name and WBID)
 dat3<-filter(dat2, WBID %in% c("Lake", "River"))
@@ -86,3 +86,7 @@ dat3<-filter(dat2, WBID %in% c("Lake", "River"))
 # add time information
 # -----------------------------------------------------
 # another aspect of this will be to split the data into years
+year1_dat <- dat3 %>%
+  filter(between(date_sampled, as.POSIXct("2017-07-01"), as.POSIXct("2018-06-30")))
+year2_dat <- dat3 %>%
+  filter(between(date_sampled, as.POSIXct("2018-07-01"), as.POSIXct("2019-06-30")))
