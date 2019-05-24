@@ -3,10 +3,11 @@
 
 The goal of this project is to develop a report of the first two years of data collections. Not included in this repository will be the spatial analyses that will be conducted in Arc Pro, however final products of those analyses will be available.
 
+![](Guana_10sites.png)
+
 ## Products to expect: 
 
 * summary tables
 * data visualizations
 * report
 
-![](Guana10sites.png)
