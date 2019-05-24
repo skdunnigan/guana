@@ -12,10 +12,10 @@ str(dat)
 # ---------------------------------------------------
 # data type housekeeping
 # ---------------------------------------------------
-# set 'Result' column to numerical value, this column contains all the numerical values from the analyses
+# set 'result' column to numerical value, this column contains all the numerical values from the analyses
 dat$result <- as.numeric(dat$result)
 
-# convert DateReceived and DateAnalyzed into POSIXct format
+# convert date_received and date_analyzed into POSIXct format
 dat$date_received <- as.POSIXct(dat$date_received, format = "%m/%d/%Y %H:%M", tz = 'America/Regina')
 dat$date_analyzed <- as.POSIXct(dat$date_analyzed, format = "%m/%d/%Y %H:%M", tz = 'America/Regina')
 

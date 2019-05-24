@@ -81,3 +81,8 @@ dat2 <- merge(dat2, WBID, by="stationcode", all.x=TRUE)
 
 # remove the duplicate samples (also given NA as site name and WBID)
 dat3<-filter(dat2, WBID %in% c("Lake", "River"))
+
+# -----------------------------------------------------
+# add time information
+# -----------------------------------------------------
+# another aspect of this will be to split the data into years
