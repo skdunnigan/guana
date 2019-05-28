@@ -19,4 +19,7 @@ dat$result <- as.numeric(dat$result)
 dat$date_received <- as.POSIXct(dat$date_received, format = "%m/%d/%Y %H:%M", tz = 'America/Regina')
 dat$date_analyzed <- as.POSIXct(dat$date_analyzed, format = "%m/%d/%Y %H:%M", tz = 'America/Regina')
 
-
+# dont forget to check the unique component names, uncomment code below if necessary
+# should be the same number of both
+# unique(dat$component_short)
+# unique(dat$component_long)
