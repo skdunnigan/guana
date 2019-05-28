@@ -57,6 +57,8 @@ rm(Micklers, LakeMiddle, LakeSouth, RiverNorth, GuanaRiver,
 # merge site names with dataframe
 dat2 <- merge(dat, siteID, by="station_code", all.x=TRUE)
 
+# clean up the global environment
+rm(siteID)
 # ------------------------------------------------------
 # add information on WBID
 # ------------------------------------------------------
@@ -82,6 +84,9 @@ dat2 <- merge(dat2, WBID, by="station_code", all.x=TRUE)
 # remove the duplicate samples (also given NA as site name and WBID)
 dat3<-filter(dat2, WBID %in% c("Lake", "River"))
 
+# clean up the global environment
+rm(WBID)
+
 # -----------------------------------------------------
 # add time information
 # -----------------------------------------------------
@@ -90,3 +95,4 @@ year1_dat <- dat3 %>%
   filter(between(date_sampled, as.POSIXct("2017-07-01"), as.POSIXct("2018-06-30")))
 year2_dat <- dat3 %>%
   filter(between(date_sampled, as.POSIXct("2018-07-01"), as.POSIXct("2019-06-30")))
+
