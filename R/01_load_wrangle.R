@@ -14,6 +14,8 @@ str(dat)
 # ---------------------------------------------------
 # set 'result' column to numerical value, this column contains all the numerical values from the analyses
 dat$result <- as.numeric(dat$result)
+dat$mdl <- as.numeric(dat$mdl)
+dat$mrl <- as.numeric(dat$mrl)
 
 # convert date_received and date_analyzed into POSIXct format
 dat$date_received <- as.POSIXct(dat$date_received, format = "%m/%d/%Y %H:%M", tz = 'America/Regina')
