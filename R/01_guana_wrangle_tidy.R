@@ -87,6 +87,8 @@ dat3<-filter(dat2, WBID %in% c("Lake", "River"))
 # clean up the global environment
 rm(WBID)
 
+# still need to assign "regulation stations" since they exclude the extreme stations in analysis
+
 # -----------------------------------------------------
 # add time information
 # -----------------------------------------------------
