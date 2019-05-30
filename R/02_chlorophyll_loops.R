@@ -41,7 +41,7 @@ for (i in uniq_sites_l) {
     scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b')+
     labs(x = '', y = chla_y_title)+
   ggtitle(i)
-  ggsave(chl_plot, file = paste0("output/plot_", i,"_CHLa.png"), width = 14, height = 10, units = "cm")
+  ggsave(chl_plot, file = paste0("output/plot_", i,"_CHLa.png"), dpi = 120)
 }
 
 # -----------------------------------------------------------------
@@ -76,5 +76,5 @@ for (i in uniq_sites_r) {
     scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b')+
     labs(x = '', y = chla_y_title)+
     ggtitle(i)
-  ggsave(chl_plot, file = paste0("output/plot_", i,"_CHLa.png"), width = 14, height = 10, units = "cm")
+  ggsave(chl_plot, file = paste0("output/plot_", i,"_CHLa.png"), dpi = 120)
 }
