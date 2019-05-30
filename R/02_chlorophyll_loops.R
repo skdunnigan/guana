@@ -33,9 +33,10 @@ for (i in uniq_sites) {
           panel.grid.major = element_line(color='gray95'))+
     scale_y_continuous(expand = c(0,0))+
     scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b')+
-    labs(x = '', y = chla_y_title)
+    labs(x = '', y = chla_y_title)+
   ggtitle(i)
-  ggsave(chl_plot, file = paste0("plot_", i,"CHLa.png"), width = 14, height = 10, units = "cm")
+  ggsave(chl_plot, file = paste0("output/plot_", i,"CHLa.png"), width = 14, height = 10, units = "cm")
 }
+
 
 # need to figure out how to force these to the output folder
