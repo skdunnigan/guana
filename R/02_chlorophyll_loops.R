@@ -17,8 +17,8 @@ uniq_sites_r = unique(dat_river$site)
 for (i in uniq_sites_l) {
 
   chl_plot = ggplot(data = subset(dat_lake, site == i)) +
-    geom_ribbon(aes(x = date_sampled, ymin = 0, ymax = 6.6, fill = 'Good'))+
-    geom_ribbon(aes(x = date_sampled, ymin = 6.6, ymax = max(result), fill = 'Poor'))+
+    geom_ribbon(aes(x = date_sampled, ymin = 0, ymax = 11, fill = 'Good'))+
+    geom_ribbon(aes(x = date_sampled, ymin = 11, ymax = max(result), fill = 'Poor'))+
     geom_hline(yintercept = 6.6, linetype='longdash', color = 'gray18', size = 1.5)+
     geom_line(aes(x = date_sampled, y = result), color = 'black', size = 1) +
     geom_point(aes(x = date_sampled, y = result), color = 'black', size = 3) +
