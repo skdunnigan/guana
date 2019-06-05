@@ -8,6 +8,10 @@ shinyApp(
       "Guana System Water Quality",
       tabPanel("Navbar 1",
                sidebarPanel(
+                 selectInput("variable", "Variable:",
+                             c("Cylinders" = "cyl",
+                               "Transmission" = "am",
+                               "Gears" = "gear")),
                  fileInput("file", "File input:"),
                  textInput("txt", "Text input:", "general"),
                  sliderInput("slider", "Slider input:", 1, 100, 30),
