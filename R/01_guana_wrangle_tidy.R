@@ -57,6 +57,19 @@ rm(Micklers, LakeMiddle, LakeSouth, RiverNorth, GuanaRiver,
 # merge site names with dataframe
 dat2 <- merge(dat, siteID, by="station_code", all.x=TRUE)
 
+# set as factor with levels
+dat2$site <- as.factor(dat2$site)
+dat2$site <- factor(dat2$site, levels = c("Micklers",
+                                          "FDEP Lake 1",
+                                          "FDEP Lake 2",
+                                          "Lake Middle",
+                                          "FDEP Lake 4",
+                                          "Lake South",
+                                          "River North",
+                                          "FDEP River 1",
+                                          "Guana River",
+                                          "FDEP River 3"))
+
 # clean up the global environment
 rm(siteID)
 # ------------------------------------------------------
@@ -84,10 +97,45 @@ dat2 <- merge(dat2, WBID, by="station_code", all.x=TRUE)
 # remove the duplicate samples (also given NA as site name and WBID)
 dat3<-filter(dat2, WBID %in% c("Lake", "River"))
 
+# set as factor with levels in order
+dat3$WBID <- as.factor(dat3$WBID)
+dat3$WBID <- factor(dat3$WBID, levels = c("Lake", "River"))
+
 # clean up the global environment
 rm(WBID)
 
-# still need to assign "regulation stations" since they exclude the extreme stations in analysis
+# ------------------------------------------------------
+# add information on WBID sites used for regulation
+# ------------------------------------------------------
+# Lake Middle, FDEP Lake 1, FDEP Lake 2, FDEP Lake 4 -> Lake
+# Guana River, FDEP River 1 -> River
+
+# first make vectors for each site
+Lake_reg <- c("Lake Middle", "FDEP Lake 1",
+              "FDEP Lake 2", "FDEP Lake 4")
+River_reg <- c("Guana River", "FDEP River 1",
+               NA, NA)
+Excluded <- c("Micklers", "Lake South",
+              "River North", "FDEP River 3")
+
+# bind the vectors into a data frame
+REGsites <- bind_cols("Lake" = Lake_reg, "River" = River_reg, "Excluded" = Excluded) %>%
+  gather(key = "REGsites", value = "site")
+
+# remove the vectors
+rm(Lake_reg,River_reg)
+
+# merge site names with dataframe
+dat4 <- merge(dat3, REGsites, by = "site", all.x=TRUE)
+
+# set as factor with levels in order
+dat4$REGsites <- as.factor(dat4$REGsites)
+dat4$REGsites <- factor(dat4$REGsites, levels = c("Lake",
+                                                  "River",
+                                                  "Excluded"))
+
+# clean up the global environment
+rm(REGsites)
 
 # -----------------------------------------------------
 # add time information
