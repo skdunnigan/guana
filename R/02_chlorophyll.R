@@ -3,7 +3,7 @@ chla_y_title <- expression(paste("Chlorophyll ", italic("a "), mu*"g/L"))
 
 # --- Lake Middle -------
 # threshold plots with ribbons
-dat3 %>%
+dat4 %>%
   filter(site == "Lake Middle" & component_short == "CHLa_UnC") %>%
   # filter(between(date_sampled, as.POSIXct("2018-07-01"), as.POSIXct("2019-06-30"))) %>%
   ggplot()+
