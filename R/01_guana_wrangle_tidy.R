@@ -144,7 +144,7 @@ rm(dat, dat2, dat3)
 # add time information
 # -----------------------------------------------------
 # another aspect of this will be to split the data into years
-year1_dat <- dat3 %>%
-  filter(between(date_sampled, as.POSIXct("2017-07-01"), as.POSIXct("2018-06-30")))
-year2_dat <- dat3 %>%
-  filter(between(date_sampled, as.POSIXct("2018-07-01"), as.POSIXct("2019-06-30")))
+# year1_dat <- dat4 %>%
+#   filter(between(date_sampled, as.POSIXct("2017-07-01"), as.POSIXct("2018-06-30")))
+# year2_dat <- dat4 %>%
+#   filter(between(date_sampled, as.POSIXct("2018-07-01"), as.POSIXct("2019-06-30")))
