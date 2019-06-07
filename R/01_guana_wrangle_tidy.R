@@ -123,7 +123,7 @@ REGsites <- bind_cols("Lake" = Lake_reg, "River" = River_reg, "Excluded" = Exclu
   gather(key = "REGsites", value = "site")
 
 # remove the vectors
-rm(Lake_reg,River_reg)
+rm(Lake_reg, River_reg, Excluded)
 
 # merge site names with dataframe
 dat4 <- merge(dat3, REGsites, by = "site", all.x=TRUE)
@@ -136,6 +136,9 @@ dat4$REGsites <- factor(dat4$REGsites, levels = c("Lake",
 
 # clean up the global environment
 rm(REGsites)
+
+# clean up old data frames
+rm(dat, dat2, dat3)
 
 # -----------------------------------------------------
 # add time information
