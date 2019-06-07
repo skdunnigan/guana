@@ -1,26 +1,53 @@
 library(shiny)
 library(shinythemes)
 
+# load packages
+library(tidyverse)
+library(lubridate)
+library(knitr)
+library(gridExtra)
+library(scales)
+library(plotly)
+library(psych)
+library(readxl)
+library(rmarkdown)
+library(janitor)
+
+# load data
+dat_nut <- read_csv("dat_nut.csv")
+
 shinyApp(
   ui = tagList(
     navbarPage(
       theme = shinythemes::shinytheme("yeti"),
       "Guana System Water Quality",
-      tabPanel("Navbar 1",
+      tabPanel("Individual Sites",
                sidebarPanel(
-                 selectInput("variable", "Variable:",
-                             c("Cylinders" = "cyl",
-                               "Transmission" = "am",
-                               "Gears" = "gear")),
-                 fileInput("file", "File input:"),
+                 # select stations
+                 selectInput(inputId = "site", label = strong("Site:"),
+                             choices = unique(dat_nut$site),
+                             selected = unique(dat_nut$site)[1]
+                 ),
+
+                 selectInput(inputId = "parameter", label = strong("Variable:"),
+                             c("Chlorophyll a" = "CHLa_UnC_1",
+                               "Total Phosphorus" = "TP1",
+                               "Total Nitrogen" = "TN1")),
+
                  textInput("txt", "Text input:", "general"),
+
                  sliderInput("slider", "Slider input:", 1, 100, 30),
+
                  tags$h5("Deafult actionButton:"),
+
                  actionButton("action", "Search"),
 
                  tags$h5("actionButton with CSS class:"),
+
                  actionButton("action2", "Action button", class = "btn-primary")
                ),
+
+
                mainPanel(
                  tabsetPanel(
                    tabPanel("Tab 1",
@@ -34,13 +61,17 @@ shinyApp(
                             h4("Header 4"),
                             h5("Header 5")
                    ),
-                   tabPanel("Tab 2", "This panel is intentionally left blank"),
-                   tabPanel("Tab 3", "This panel is intentionally left blank")
+                   tabPanel("Tab 2", "Probably going to be summary tables"),
+                   tabPanel("Tab 3", "This panel is a work in progress!")
                  )
                )
       ),
-      tabPanel("Navbar 2", "This panel is intentionally left blank"),
-      tabPanel("Navbar 3", "This panel is intentionally left blank")
+
+
+      tabPanel("Navbar 2", "This panel is a work in progress!"),
+
+
+      tabPanel("Navbar 3", "This panel is a work in progress!")
     )
   ),
   server = function(input, output) {
@@ -52,3 +83,4 @@ shinyApp(
     })
   }
 )
+# shinyApp(ui = ui, server = server)
