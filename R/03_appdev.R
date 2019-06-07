@@ -15,25 +15,29 @@ library(janitor)
 library(here)
 
 # load data
-setwd('/cloud/project/')
-dat <- read_csv("data/dat_new.csv")
+path <- here("data", "dat_new.csv")
+dat <- read_csv(path)
 
 ui <- fluidPage(
   sidebarPanel(
     # select site names
-    selectInput(inputId = "site", label = strong("Site:"),
+    selectInput(inputId = "site", label = strong("Select a site:"),
                  choices = unique(dat$site),
                  selected = unique(dat$site)[1]
     ),
     # select parameter
-    selectInput(inputId = "parameter", label = strong("Parameter:"),
+    selectInput(inputId = "parameter", label = strong("Select a parameter:"),
                 choices = unique(dat$component_long),
                 selected = unique(dat$component_long)[1]
     ),
     # select date
-    dateRangeInput("date", strong("Date range"),
+    dateRangeInput(inputId = "date", label = strong("Select a date range:"),
                    start = min(dat$date_sampled),
-                   end = max(dat$date_sampled))
+                   end = max(dat$date_sampled)
+    ),
+    # add threshold
+    numericInput(inputId = "threshold", label = strong("Enter threshold values:"),
+                 value = 0)
   ),
 
   mainPanel(
@@ -49,9 +53,9 @@ server <- function(input, output) {
     req(input$date)
     dat %>%
       filter(site == input$site,
-             date >= as.Date(input$date[1]),
-             date <= as.Date(input$date[2]),
-             parameter == input$parameter)
+             date_sampled >= as.Date(input$date[1]),
+             date_sampled <= as.Date(input$date[2]),
+             component_long == input$parameter)
   })
 
   # create plotly object
@@ -60,11 +64,13 @@ server <- function(input, output) {
     req(input$site)
     req(input$parameter)
     req(input$date)
+    req(input$threshold)
 
     # create base plot
     p <- ggplot(dat2()) +
       geom_point(aes(x = date_sampled, y = result)) +
-      labs(title = paste(input$parameter, " at ", input$site), x = "Date", y = input$parameter) +
+      geom_hline(yintercept = input$threshold, linetype='longdash', color = 'gray18', size = 1.5)+
+      labs(title = paste(input$parameter, "at", input$site), x = "Date", y = input$parameter) +
       theme_classic()
   })
 }
@@ -72,3 +78,6 @@ server <- function(input, output) {
 
 
 shinyApp(ui = ui, server = server)
+
+# want to add numerical input for threshold value
+## can default be blank?
