@@ -87,4 +87,25 @@ dat4 %>%
   labs(x = '', y = chla_y_title,
        title = "River Sites")
 
+# looking into values more specifically
+dat4 %>%
+  filter(WBID == "River" & component_short == "CHLa_UnC") %>%
+  # filter(between(date_sampled, as.POSIXct("2018-07-01"), as.POSIXct("2019-06-30"))) %>%
+  ggplot()+
+  geom_line(aes(x = date_sampled, y = result, linetype = REGsites), size = 1) +
+  geom_hline(yintercept = 6.6, linetype='longdash', color = 'gray18', size = 1.5)+
+  geom_point(aes(x = date_sampled, y = result, color = result >6.6, shape = REGsites), size = 3) +
+  theme_classic()
+
+dat4 %>%
+  filter(WBID == "Lake" & component_short == "CHLa_UnC") %>%
+  # filter(between(date_sampled, as.POSIXct("2018-07-01"), as.POSIXct("2019-06-30"))) %>%
+  ggplot()+
+  geom_line(aes(x = date_sampled, y = result, color = site, linetype = REGsites), size = 1) +
+  geom_hline(yintercept = 11, linetype='longdash', color = 'gray18', size = 1.5)+
+  geom_point(aes(x = date_sampled, y = result, color = result >11, shape = REGsites), size = 3) +
+  theme_classic()
+
+
+
 #adding comment
