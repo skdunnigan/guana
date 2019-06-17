@@ -111,28 +111,22 @@ rm(WBID)
 # Guana River, FDEP River 1 -> River
 
 # first make vectors for each site
-Lake_reg <- c("Lake Middle", "FDEP Lake 1",
-              "FDEP Lake 2", "FDEP Lake 4")
-River_reg <- c("Guana River", "FDEP River 1",
-               NA, NA)
-Excluded <- c("Micklers", "Lake South",
-              "River North", "FDEP River 3")
+Open_water <- c("Lake Middle", "FDEP Lake 1",
+              "FDEP Lake 2", "FDEP Lake 4",
+              "Guana River", "FDEP River 1",
+               "FDEP River 3", NA)
+WaterControl <- c("Micklers", "Lake South",
+              "River North", NA, NA, NA, NA, NA)
 
 # bind the vectors into a data frame
-REGsites <- bind_cols("Lake" = Lake_reg, "River" = River_reg, "Excluded" = Excluded) %>%
+REGsites <- bind_cols("OpenWater" = Open_water, "WaterControl" = WaterControl) %>%
   gather(key = "REGsites", value = "site")
 
 # remove the vectors
-rm(Lake_reg, River_reg, Excluded)
+rm(Open_water, WaterControl)
 
 # merge site names with dataframe
 dat4 <- merge(dat3, REGsites, by = "site", all.x=TRUE)
-
-# set as factor with levels in order
-dat4$REGsites <- as.factor(dat4$REGsites)
-dat4$REGsites <- factor(dat4$REGsites, levels = c("Lake",
-                                                  "River",
-                                                  "Excluded"))
 
 # clean up the global environment
 rm(REGsites)
