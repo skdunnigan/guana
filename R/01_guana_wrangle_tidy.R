@@ -120,7 +120,7 @@ WaterControl <- c("Micklers", "Lake South",
 
 # bind the vectors into a data frame
 REGsites <- bind_cols("OpenWater" = Open_water, "WaterControl" = WaterControl) %>%
-  gather(key = "REGsites", value = "site")
+  gather(key = "sitetype", value = "site")
 
 # remove the vectors
 rm(Open_water, WaterControl)

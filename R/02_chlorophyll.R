@@ -38,9 +38,9 @@ dat4 %>%
   filter(WBID == "Lake" & component_short == "CHLa_UnC") %>%
   # filter(between(date_sampled, as.POSIXct("2018-07-01"), as.POSIXct("2019-06-30"))) %>%
   ggplot()+
-  geom_line(aes(x = date_sampled, y = result, color = site, linetype = REGsites), size = 1) +
+  geom_line(aes(x = date_sampled, y = result, color = site, linetype = sitetype), size = 1) +
   geom_hline(yintercept = 11, linetype='longdash', color = 'gray18', size = 1.5)+
-  geom_point(aes(x = date_sampled, y = result, color = site, shape = REGsites), size = 3) +
+  geom_point(aes(x = date_sampled, y = result, color = site, shape = sitetype), size = 3) +
   theme_classic()+
   theme(legend.title = element_blank(),  # everything in theme is strictly aesthetics
         legend.position = "bottom",
@@ -66,9 +66,9 @@ dat4 %>%
   filter(WBID == "River" & component_short == "CHLa_UnC") %>%
   # filter(between(date_sampled, as.POSIXct("2018-07-01"), as.POSIXct("2019-06-30"))) %>%
   ggplot()+
-  geom_line(aes(x = date_sampled, y = result, color = site, linetype = REGsites), size = 1) +
+  geom_line(aes(x = date_sampled, y = result, color = site, linetype = sitetype), size = 1) +
   geom_hline(yintercept = 6.6, linetype='longdash', color = 'gray18', size = 1.5)+
-  geom_point(aes(x = date_sampled, y = result, color = site, shape = REGsites), size = 3) +
+  geom_point(aes(x = date_sampled, y = result, color = site, shape = sitetype), size = 3) +
   theme_classic()+
   theme(legend.title = element_blank(),  # everything in theme is strictly aesthetics
         legend.position = "bottom",
@@ -95,9 +95,9 @@ dat4 %>%
   ggplot()+
   # geom_line(aes(x = date_sampled, y = result, linetype = REGsites), size = 1) +
   geom_hline(yintercept = 6.6, linetype='longdash', color = 'gray18', size = 1.5)+
-  geom_point(aes(x = date_sampled, y = result, color = result > 6.6, shape = REGsites), size = 3) +
+  geom_point(aes(x = date_sampled, y = result, color = result > 6.6, shape = sitetype), size = 3) +
   theme_classic()+
-  theme(legend.title = element_blank(),  # everything in theme is strictly aesthetics
+  theme(# everything in theme is strictly aesthetics
         legend.position = "bottom",
         legend.text = element_text(size=12),
         axis.title.x = element_blank(),
@@ -111,6 +111,7 @@ dat4 %>%
         panel.grid.minor = element_blank(),
         panel.grid.major = element_line(color='gray95'))+
   scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y')+
+  scale_colour_manual(values = c("darkturquoise", "orange"))+
   labs(x = '', y = chla_y_title,
        title = "River Sites")
 
@@ -121,7 +122,7 @@ dat4 %>%
   ggplot()+
   # geom_line(aes(x = date_sampled, y = result, color = site, linetype = REGsites), size = 1) +
   geom_hline(yintercept = 11, linetype='longdash', color = 'gray18', size = 1.5)+
-  geom_point(aes(x = date_sampled, y = result, color = result > 11, shape = REGsites), size = 3) +
+  geom_point(aes(x = date_sampled, y = result, color = result > 11, shape = sitetype), size = 3) +
   theme_classic()+
   theme(  # everything in theme is strictly aesthetics
         legend.position = "bottom",
@@ -137,6 +138,7 @@ dat4 %>%
         panel.grid.minor = element_blank(),
         panel.grid.major = element_line(color='gray95'))+
   scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y')+
+  scale_colour_manual(values = c("darkturquoise", "orange"))+
   labs(x = '', y = chla_y_title,
        title = "Lake Sites")
 
