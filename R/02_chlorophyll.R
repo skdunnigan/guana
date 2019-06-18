@@ -141,7 +141,3 @@ dat4 %>%
   scale_colour_manual(values = c("darkturquoise", "orange"))+
   labs(x = '', y = chla_y_title,
        title = "Lake Sites")
-
-
-
-#adding comment
