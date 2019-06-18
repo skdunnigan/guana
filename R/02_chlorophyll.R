@@ -31,9 +31,9 @@ dat4 %>%
     scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b')+
     labs(x = '', y = chla_y_title,
         title = "Lake Middle")
-ggsave("output/LM_Chla.png", dpi = 300)
+# ggsave("output/LM_Chla.png", dpi = 300)
 
-# all lake sites with regulation sites and excluded sites shown
+# all lake sites with open water and water control structure sites shown
 dat4 %>%
   filter(WBID == "Lake" & component_short == "CHLa_UnC") %>%
   # filter(between(date_sampled, as.POSIXct("2018-07-01"), as.POSIXct("2019-06-30"))) %>%
@@ -84,7 +84,7 @@ dat4 %>%
         panel.grid.minor = element_blank(),
         panel.grid.major = element_line(color='gray95'))+
   scale_y_continuous(expand = c(0,0))+
-  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b')+
+  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y')+
   labs(x = '', y = chla_y_title,
        title = "River Sites")
 
