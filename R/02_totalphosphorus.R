@@ -61,7 +61,7 @@ dat4 %>%
   ggplot()+
   # geom_line(aes(x = date_sampled, y = result, linetype = REGsites), size = 1) +
   geom_hline(yintercept = 0.105, linetype='longdash', color = 'gray18', size = 1.5)+
-  geom_point(aes(x = date_sampled, y = result, color = result > 0.105, shape = sitetype), size = 3) +
+  geom_point(aes(x = date_sampled, y = result, color = result > 0.105, shape = sitetype), size = 4) +
   theme_classic()+
   theme(# everything in theme is strictly aesthetics
     legend.position = "bottom",
