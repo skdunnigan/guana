@@ -113,7 +113,8 @@ dat4 %>%
   scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y')+
   scale_colour_manual(values = c("darkturquoise", "orange"))+
   labs(x = '', y = chla_y_title,
-       title = "River Sites")
+       title = "River Sites",
+       caption = "Sites near water control structures are sampled for hydrologic connectivity and not used for waterbody assessments")
 
 
 dat4 %>%
@@ -140,4 +141,5 @@ dat4 %>%
   scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y')+
   scale_colour_manual(values = c("darkturquoise", "orange"))+
   labs(x = '', y = chla_y_title,
-       title = "Lake Sites")
+       title = "Lake Sites",
+       caption = "Sites near water control structures are sampled for hydrologic connectivity and not used for waterbody assessments")
