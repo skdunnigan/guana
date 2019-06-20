@@ -1,5 +1,18 @@
 # this code is to do some further data customizations unique to this dataset
 source('R/01_load_wrangle.R')
+
+# -----------------------------------------------------
+# add time information
+# -----------------------------------------------------
+# another aspect of this will be to split the data into years
+# year1_dat <- dat4 %>%
+#   filter(between(date_sampled, as.POSIXct("2017-07-01"), as.POSIXct("2018-06-30")))
+# year2_dat <- dat4 %>%
+#   filter(between(date_sampled, as.POSIXct("2018-07-01"), as.POSIXct("2019-06-30")))
+dat$month <- month(dat$date_sampled)
+dat$day <- day(dat$date_sampled)
+dat$year <- as.character(year(dat$date_sampled))
+
 # ------------------------------------------------------
 # rename station codes to a site name
 # ------------------------------------------------------
@@ -50,14 +63,14 @@ siteID <- bind_cols("Micklers" = Micklers,
                     "FDEP River 3" = FDEPRiver3) %>%
   gather(key = "site", value = "station_code")
 
-# remove the vectors
+# remove the vectors, we don't need them anymore
 rm(Micklers, LakeMiddle, LakeSouth, RiverNorth, GuanaRiver,
    FDEPLake1, FDEPLake2, FDEPLake4, FDEPRiver1, FDEPRiver3)
 
 # merge site names with dataframe
 dat2 <- merge(dat, siteID, by="station_code", all.x=TRUE)
 
-# set as factor with levels
+# set site as factor with levels, helps with ordering
 dat2$site <- as.factor(dat2$site)
 dat2$site <- factor(dat2$site, levels = c("Micklers",
                                           "FDEP Lake 1",
@@ -88,7 +101,7 @@ River <- c("GTMDSNUT", "GTMRNNUT","GTMGRNUT", "GTMGR1NUT",
 WBID <- bind_cols("Lake" = Lake, "River" = River) %>%
   gather(key = "WBID", value = "station_code")
 
-# remove the vectors
+# remove the vectors, we don't need them
 rm(Lake,River)
 
 # merge site names with dataframe
@@ -122,7 +135,7 @@ WaterControl <- c("Micklers", "Lake South",
 REGsites <- bind_cols("OpenWater" = Open_water, "WaterControl" = WaterControl) %>%
   gather(key = "sitetype", value = "site")
 
-# remove the vectors
+# remove the vectors, we don't need them anymore
 rm(Open_water, WaterControl)
 
 # merge site names with dataframe
@@ -132,13 +145,5 @@ dat4 <- merge(dat3, REGsites, by = "site", all.x=TRUE)
 rm(REGsites)
 
 # clean up old data frames
-rm(dat, dat2, dat3)
+rm(dat2, dat3)
 
-# -----------------------------------------------------
-# add time information
-# -----------------------------------------------------
-# another aspect of this will be to split the data into years
-# year1_dat <- dat4 %>%
-#   filter(between(date_sampled, as.POSIXct("2017-07-01"), as.POSIXct("2018-06-30")))
-# year2_dat <- dat4 %>%
-#   filter(between(date_sampled, as.POSIXct("2018-07-01"), as.POSIXct("2019-06-30")))
