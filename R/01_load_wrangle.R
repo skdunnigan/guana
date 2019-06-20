@@ -1,8 +1,8 @@
 # code is to bring in data file and do some basic data tidying
 source('R/00_loadpackages.R')
 
-# read in data file
-dat <- read_xlsx("data/data.xlsx", sheet = 'Sheet1') %>% janitor::clean_names()
+# read in guana data file
+dat <- read_xlsx("data/data-0619.xlsx", sheet = 'Sheet1') %>% janitor::clean_names()
 #janitor and clean_names() function cleans up the column header names!
 
 # inspect the data file
@@ -23,6 +23,5 @@ dat$date_analyzed <- as.POSIXct(dat$date_analyzed, format = "%m/%d/%Y %H:%M", tz
 
 # dont forget to check the unique component names, uncomment code below if necessary
 # should be the same number of both!
-# unique(dat$component_short)
-# unique(dat$component_long)
-
+unique(dat$component_short)
+unique(dat$component_long)
