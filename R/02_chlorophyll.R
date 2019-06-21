@@ -1,19 +1,34 @@
-# create label for chlorophyll plot
-chla_y_title <- expression(paste("Chlorophyll ", italic("a "), mu*"g/L"))
+# run code before
+source('R/00_loadpackages.R')
+source('R/00_vis_custom.R')
+source('R/01_load_wrangle.R')
+source('R/01_guana_wrangle_tidy.R')
 
-# create color palette for sites
-sitecolours <- c(
-  Micklers = "#F8766D",
-  `FDEP Lake 1` = "#D89000",
-  `FDEP Lake 2` = "#A3A500",
-  `Lake Middle` = "#39B600",
-  `FDEP Lake 4` = "#00BF7D",
-  `Lake South` = "#00BFC4",
-  `River North` = "#00B0F6",
-  `FDEP River 1` = "#9590FF",
-  `Guana River` = "#E76BF3",
-  `FDEP River 3` = "#FF62BC"
-)
+# all sites first
+dat4 %>%
+  filter(component_short == "CHLa_UnC") %>%
+  ggplot() +
+  geom_line(aes(x = date_sampled, y = result, color = site), size = 1) +
+  geom_point(aes(x = date_sampled, y = result, color = site), size = 3) +
+  scale_colour_manual(values = sitecolours) +
+  theme_classic() +
+  theme(legend.title = element_blank(), # everything in theme is strictly aesthetics
+        legend.position = "bottom",
+        legend.text = element_text(size=12),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(size=13),
+        axis.ticks = element_line(color='black'),
+        plot.caption = element_text(size=6, face='italic'),
+        axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
+        axis.text.y = element_text(size=12, color='black'),
+        axis.ticks.x = element_line(color='black'),
+        plot.title = element_text(size = 16, face='bold'),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_line(color='gray95'))+
+  scale_y_continuous(expand = c(0,0))+
+  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y')+
+  labs(x = '', y = chla_y_title,
+       title = "All Guana Water Quality Sites")
 
 # --- Lake Middle -------
 # threshold plots with ribbons
@@ -166,6 +181,33 @@ dat4 %>%
 # ----------------------------------------------------------------------
 # just open water sites for regulation
 # ----------------------------------------------------------------------
+
+# all open water sites
+dat4 %>%
+  filter(component_short == "CHLa_UnC" & sitetype == "OpenWater") %>%
+  ggplot() +
+  geom_line(aes(x = date_sampled, y = result, color = site), size = 1) +
+  geom_point(aes(x = date_sampled, y = result, color = site), size = 3) +
+  scale_colour_manual(values = sitecolours) +
+  theme_classic() +
+  theme(legend.title = element_blank(), # everything in theme is strictly aesthetics
+        legend.position = "bottom",
+        legend.text = element_text(size=12),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(size=13),
+        axis.ticks = element_line(color='black'),
+        plot.caption = element_text(size=6, face='italic'),
+        axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
+        axis.text.y = element_text(size=12, color='black'),
+        axis.ticks.x = element_line(color='black'),
+        plot.title = element_text(size = 16, face='bold'),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_line(color='gray95')) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels = '%b-%y') +
+  labs(x = '', y = chla_y_title,
+       title = "Only the Open Water Guana Water Quality Sites")
+
 # lake
 dat4 %>%
   filter(WBID == "Lake" & component_short == "CHLa_UnC" & sitetype == "OpenWater") %>%
@@ -221,12 +263,12 @@ dat4 %>%
 # river
 dat4 %>%
   filter(WBID == "River" & component_short == "CHLa_UnC" & sitetype == "OpenWater") %>%
-  ggplot()+
+  ggplot() +
   geom_line(aes(x = date_sampled, y = result, color = site), size = 1) +
-  geom_hline(yintercept = 6.6, linetype='longdash', color = 'gray18', size = 1.5)+
+  geom_hline(yintercept = 6.6, linetype = 'longdash', color = 'gray18', size = 1.5) +
   geom_point(aes(x = date_sampled, y = result, color = site), size = 3) +
   scale_colour_manual(values = sitecolours) +
-  theme_classic()+
+  theme_classic() +
   theme(legend.title = element_blank(),  # everything in theme is strictly aesthetics
         legend.position = "bottom",
         legend.text = element_text(size=12),
@@ -239,18 +281,18 @@ dat4 %>%
         axis.ticks.x = element_line(color='black'),
         plot.title = element_text(size = 16, face='bold'),
         panel.grid.minor = element_blank(),
-        panel.grid.major = element_line(color='gray95'))+
-  scale_y_continuous(expand = c(0,0))+
-  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y')+
+        panel.grid.major = element_line(color='gray95')) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels = '%b-%y') +
   labs(x = '', y = chla_y_title,
        title = "Open Water River Sites")
 
 dat4 %>%
   filter(WBID == "River" & component_short == "CHLa_UnC" & sitetype == "OpenWater") %>%
-  ggplot()+
-  geom_hline(yintercept = 6.6, linetype='longdash', color = 'gray18', size = 1.5)+
+  ggplot() +
+  geom_hline(yintercept = 6.6, linetype = 'longdash', color = 'gray18', size = 1.5) +
   geom_point(aes(x = date_sampled, y = result, color = result > 6.6, shape = site), size = 3) +
-  theme_classic()+
+  theme_classic() +
   theme(# everything in theme is strictly aesthetics
         legend.position = "bottom",
         legend.text = element_text(size=12),
@@ -263,9 +305,9 @@ dat4 %>%
         axis.ticks.x = element_line(color='black'),
         plot.title = element_text(size = 16, face='bold'),
         panel.grid.minor = element_blank(),
-        panel.grid.major = element_line(color='gray95'))+
-  scale_y_continuous(expand = c(0,0))+
-  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y')+
+        panel.grid.major = element_line(color='gray95')) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels = '%b-%y')+
   scale_colour_manual(values = c("darkturquoise", "orange"))+
   labs(x = '', y = chla_y_title,
        title = "Open Water River Sites")
