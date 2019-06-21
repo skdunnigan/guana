@@ -18,7 +18,7 @@ met_dat_daily %>%
     axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
     axis.text.y = element_text(size=12, color='black'),
     axis.ticks.x = element_line(color='black'),
-    title = element_text(size = 13, face='bold'),
+    plot.title = element_text(size = 13, face='bold'),
     plot.subtitle = element_text(size = 11, face = 'italic'),
     panel.grid.minor = element_blank(),
     panel.grid.major = element_line(color='gray95'))+
@@ -40,7 +40,7 @@ met_dat_monthly %>%
     axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
     axis.text.y = element_text(size=12, color='black'),
     axis.ticks.x = element_line(color='black'),
-    title = element_text(size = 13, face='bold'),
+    plot.title = element_text(size = 13, face='bold'),
     plot.subtitle = element_text(size = 11, face = 'italic'),
     panel.grid.minor = element_blank(),
     panel.grid.major = element_blank()) +

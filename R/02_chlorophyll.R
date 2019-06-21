@@ -38,7 +38,7 @@ dat4 %>%
           axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
           axis.text.y = element_text(size=12, color='black'),
           axis.ticks.x = element_line(color='black'),
-          title = element_text(size = 13, face='bold'),
+          plot.title = element_text(size = 16, face='bold'),
           panel.grid.minor = element_blank(),
           panel.grid.major = element_line(color='gray95')) +
     scale_y_continuous(expand = c(0,0)) +
@@ -68,7 +68,7 @@ dat4 %>%
         axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
         axis.text.y = element_text(size=12, color='black'),
         axis.ticks.x = element_line(color='black'),
-        title = element_text(size = 13, face='bold'),
+        plot.title = element_text(size = 16, face='bold'),
         panel.grid.minor = element_blank(),
         panel.grid.major = element_line(color='gray95')) +
   scale_y_continuous(expand = c(0,0)) +
@@ -98,7 +98,7 @@ dat4 %>%
         axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
         axis.text.y = element_text(size=12, color='black'),
         axis.ticks.x = element_line(color='black'),
-        title = element_text(size = 13, face='bold'),
+        plot.title = element_text(size = 16, face='bold'),
         panel.grid.minor = element_blank(),
         panel.grid.major = element_line(color='gray95')) +
   scale_y_continuous(expand = c(0,0)) +
@@ -125,7 +125,8 @@ dat4 %>%
         axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
         axis.text.y = element_text(size=12, color='black'),
         axis.ticks.x = element_line(color='black'),
-        title = element_text(size = 13, face='bold'),
+        plot.title = element_text(size = 16, face='bold'),
+        plot.subtitle = element_text(size = 11, face = 'italic'),
         panel.grid.minor = element_blank(),
         panel.grid.major = element_line(color='gray95'))+
   scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels = '%b-%y')+
@@ -151,7 +152,8 @@ dat4 %>%
         axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
         axis.text.y = element_text(size=12, color='black'),
         axis.ticks.x = element_line(color='black'),
-        title = element_text(size = 13, face='bold'),
+        plot.title = element_text(size = 16, face='bold'),
+        plot.subtitle = element_text(size = 11, face = 'italic'),
         panel.grid.minor = element_blank(),
         panel.grid.major = element_line(color='gray95'))+
   scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels = '%b-%y') +
@@ -183,7 +185,7 @@ dat4 %>%
         axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
         axis.text.y = element_text(size=12, color='black'),
         axis.ticks.x = element_line(color='black'),
-        title = element_text(size = 13, face='bold'),
+        plot.title = element_text(size = 16, face='bold'),
         panel.grid.minor = element_blank(),
         panel.grid.major = element_line(color='gray95'))+
   scale_y_continuous(expand = c(0,0))+
@@ -207,7 +209,7 @@ dat4 %>%
         axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
         axis.text.y = element_text(size=12, color='black'),
         axis.ticks.x = element_line(color='black'),
-        title = element_text(size = 13, face='bold'),
+        plot.title = element_text(size = 16, face='bold'),
         panel.grid.minor = element_blank(),
         panel.grid.major = element_line(color='gray95'))+
   scale_y_continuous(expand = c(0,0))+
@@ -235,7 +237,7 @@ dat4 %>%
         axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
         axis.text.y = element_text(size=12, color='black'),
         axis.ticks.x = element_line(color='black'),
-        title = element_text(size = 13, face='bold'),
+        plot.title = element_text(size = 16, face='bold'),
         panel.grid.minor = element_blank(),
         panel.grid.major = element_line(color='gray95'))+
   scale_y_continuous(expand = c(0,0))+
@@ -259,7 +261,7 @@ dat4 %>%
         axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
         axis.text.y = element_text(size=12, color='black'),
         axis.ticks.x = element_line(color='black'),
-        title = element_text(size = 13, face='bold'),
+        plot.title = element_text(size = 16, face='bold'),
         panel.grid.minor = element_blank(),
         panel.grid.major = element_line(color='gray95'))+
   scale_y_continuous(expand = c(0,0))+
