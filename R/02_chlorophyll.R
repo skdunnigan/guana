@@ -1,19 +1,33 @@
 # create label for chlorophyll plot
 chla_y_title <- expression(paste("Chlorophyll ", italic("a "), mu*"g/L"))
 
+# create color palette for sites
+sitecolours <- c(
+  Micklers = "#F8766D",
+  `FDEP Lake 1` = "#D89000",
+  `FDEP Lake 2` = "#A3A500",
+  `Lake Middle` = "#39B600",
+  `FDEP Lake 4` = "#00BF7D",
+  `Lake South` = "#00BFC4",
+  `River North` = "#00B0F6",
+  `FDEP River 1` = "#9590FF",
+  `Guana River` = "#E76BF3",
+  `FDEP River 3` = "#FF62BC"
+)
+
 # --- Lake Middle -------
 # threshold plots with ribbons
 dat4 %>%
   filter(site == "Lake Middle" & component_short == "CHLa_UnC") %>%
   # filter(between(date_sampled, as.POSIXct("2018-07-01"), as.POSIXct("2019-06-30"))) %>%
-  ggplot()+
+  ggplot() +
     geom_ribbon(aes(x = date_sampled, ymin = 0, ymax = 6.6, fill = 'Good'))+
-    geom_ribbon(aes(x = date_sampled, ymin = 6.6, ymax = max(result), fill = 'Poor'))+
-    geom_hline(yintercept = 6.6, linetype='longdash', color = 'gray18', size = 1.5)+
+    geom_ribbon(aes(x = date_sampled, ymin = 6.6, ymax = max(result), fill = 'Poor')) +
+    geom_hline(yintercept = 6.6, linetype = 'longdash', color = 'gray18', size = 1.5) +
     geom_line(aes(x = date_sampled, y = result), color = 'black', size = 1) +
     geom_point(aes(x = date_sampled, y = result), color = 'black', size = 3) +
-    theme_classic()+
-    scale_fill_manual(name = '', values = c('Good' = '#ABD9E9', 'Poor' = '#FEC596'))+
+    theme_classic() +
+    scale_fill_manual(name = '', values = c('Good' = '#ABD9E9', 'Poor' = '#FEC596')) +
     theme(legend.title = element_blank(),  # everything in theme is strictly aesthetics
           legend.position = "bottom",
           legend.text = element_text(size=12),
@@ -26,9 +40,9 @@ dat4 %>%
           axis.ticks.x = element_line(color='black'),
           title = element_text(size = 13, face='bold'),
           panel.grid.minor = element_blank(),
-          panel.grid.major = element_line(color='gray95'))+
-    scale_y_continuous(expand = c(0,0))+
-    scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b')+
+          panel.grid.major = element_line(color='gray95')) +
+    scale_y_continuous(expand = c(0,0)) +
+    scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels = '%b') +
     labs(x = '', y = chla_y_title,
         title = "Lake Middle")
 # ggsave("output/LM_Chla.png", dpi = 300)
@@ -38,11 +52,12 @@ dat4 %>%
 # ----------------------------------------------------------------------
 dat4 %>%
   filter(WBID == "Lake" & component_short == "CHLa_UnC") %>%
-  ggplot()+
+  ggplot() +
   geom_line(aes(x = date_sampled, y = result, color = site, linetype = sitetype), size = 1) +
-  geom_hline(yintercept = 11, linetype='longdash', color = 'gray18', size = 1.5)+
+  geom_hline(yintercept = 11, linetype = 'longdash', color = 'gray18', size = 1.5) +
   geom_point(aes(x = date_sampled, y = result, color = site, shape = sitetype), size = 3) +
-  theme_classic()+
+  scale_colour_manual(values = sitecolours) +
+  theme_classic() +
   theme(legend.title = element_blank(),  # everything in theme is strictly aesthetics
         legend.position = "bottom",
         legend.text = element_text(size=12),
@@ -55,9 +70,9 @@ dat4 %>%
         axis.ticks.x = element_line(color='black'),
         title = element_text(size = 13, face='bold'),
         panel.grid.minor = element_blank(),
-        panel.grid.major = element_line(color='gray95'))+
-  scale_y_continuous(expand = c(0,0))+
-  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y')+
+        panel.grid.major = element_line(color='gray95')) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels = '%b-%y')+
   labs(x = '', y = chla_y_title,
        title = "Lake Sites",
        caption = "Sites near water control structures are sampled for hydrologic connectivity and not used for waterbody assessments")
@@ -67,11 +82,12 @@ dat4 %>%
 # ----------------------------------------------------------------------
 dat4 %>%
   filter(WBID == "River" & component_short == "CHLa_UnC") %>%
-  ggplot()+
+  ggplot() +
   geom_line(aes(x = date_sampled, y = result, color = site, linetype = sitetype), size = 1) +
-  geom_hline(yintercept = 6.6, linetype='longdash', color = 'gray18', size = 1.5)+
+  geom_hline(yintercept = 6.6, linetype = 'longdash', color = 'gray18', size = 1.5) +
   geom_point(aes(x = date_sampled, y = result, color = site, shape = sitetype), size = 3) +
-  theme_classic()+
+  scale_colour_manual(values = sitecolours) +
+  theme_classic() +
   theme(legend.title = element_blank(),  # everything in theme is strictly aesthetics
         legend.position = "bottom",
         legend.text = element_text(size=12),
@@ -84,9 +100,9 @@ dat4 %>%
         axis.ticks.x = element_line(color='black'),
         title = element_text(size = 13, face='bold'),
         panel.grid.minor = element_blank(),
-        panel.grid.major = element_line(color='gray95'))+
-  scale_y_continuous(expand = c(0,0))+
-  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y')+
+        panel.grid.major = element_line(color='gray95')) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels = '%b-%y') +
   labs(x = '', y = chla_y_title,
        title = "River Sites")
 
@@ -95,10 +111,10 @@ dat4 %>%
 # ----------------------------------------------------------------------
 dat4 %>%
   filter(WBID == "River" & component_short == "CHLa_UnC") %>%
-  ggplot()+
-  geom_hline(yintercept = 6.6, linetype='longdash', color = 'gray18', size = 1.5)+
+  ggplot() +
+  geom_hline(yintercept = 6.6, linetype = 'longdash', color = 'gray18', size = 1.5) +
   geom_point(aes(x = date_sampled, y = result, color = result > 6.6, shape = sitetype), size = 3) +
-  theme_classic()+
+  theme_classic() +
   theme(# everything in theme is strictly aesthetics
         legend.position = "bottom",
         legend.text = element_text(size=12),
@@ -112,8 +128,8 @@ dat4 %>%
         title = element_text(size = 13, face='bold'),
         panel.grid.minor = element_blank(),
         panel.grid.major = element_line(color='gray95'))+
-  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y')+
-  scale_colour_manual(values = c("darkturquoise", "orange"))+
+  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels = '%b-%y')+
+  scale_colour_manual(values = c("darkturquoise", "orange")) +
   labs(x = '', y = chla_y_title,
        title = "River Sites",
        subtitle = "Threshold exceedances indicated by color change",
@@ -121,10 +137,10 @@ dat4 %>%
 
 dat4 %>%
   filter(WBID == "Lake" & component_short == "CHLa_UnC") %>%
-  ggplot()+
-  geom_hline(yintercept = 11, linetype='longdash', color = 'gray18', size = 1.5)+
+  ggplot() +
+  geom_hline(yintercept = 11, linetype = 'longdash', color = 'gray18', size = 1.5) +
   geom_point(aes(x = date_sampled, y = result, color = result > 11, shape = sitetype), size = 3) +
-  theme_classic()+
+  theme_classic() +
   theme(  # everything in theme is strictly aesthetics
         legend.position = "bottom",
         legend.text = element_text(size=12),
@@ -138,7 +154,7 @@ dat4 %>%
         title = element_text(size = 13, face='bold'),
         panel.grid.minor = element_blank(),
         panel.grid.major = element_line(color='gray95'))+
-  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y')+
+  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels = '%b-%y') +
   scale_colour_manual(values = c("darkturquoise", "orange"))+
   labs(x = '', y = chla_y_title,
        title = "Lake Sites",
@@ -151,11 +167,12 @@ dat4 %>%
 # lake
 dat4 %>%
   filter(WBID == "Lake" & component_short == "CHLa_UnC" & sitetype == "OpenWater") %>%
-  ggplot()+
+  ggplot() +
   geom_line(aes(x = date_sampled, y = result, color = site), size = 1) +
-  geom_hline(yintercept = 11, linetype='longdash', color = 'gray18', size = 1.5)+
+  geom_hline(yintercept = 11, linetype = 'longdash', color = 'gray18', size = 1.5) +
   geom_point(aes(x = date_sampled, y = result, color = site), size = 3) +
-  theme_classic()+
+  scale_colour_manual(values = sitecolours) +
+  theme_classic() +
   theme(legend.title = element_blank(),  # everything in theme is strictly aesthetics
         legend.position = "bottom",
         legend.text = element_text(size=12),
@@ -170,14 +187,14 @@ dat4 %>%
         panel.grid.minor = element_blank(),
         panel.grid.major = element_line(color='gray95'))+
   scale_y_continuous(expand = c(0,0))+
-  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y')+
+  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels = '%b-%y')+
   labs(x = '', y = chla_y_title,
        title = "Open Water Lake Sites")
 
 dat4 %>%
   filter(WBID == "Lake" & component_short == "CHLa_UnC" & sitetype == "OpenWater") %>%
-  ggplot()+
-  geom_hline(yintercept = 11, linetype='longdash', color = 'gray18', size = 1.5)+
+  ggplot() +
+  geom_hline(yintercept = 11, linetype='longdash', color = 'gray18', size = 1.5) +
   geom_point(aes(x = date_sampled, y = result, color = result > 11, shape = site), size = 3) +
   theme_classic()+
   theme(# everything in theme is strictly aesthetics
@@ -194,7 +211,7 @@ dat4 %>%
         panel.grid.minor = element_blank(),
         panel.grid.major = element_line(color='gray95'))+
   scale_y_continuous(expand = c(0,0))+
-  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y')+
+  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels = '%b-%y')+
   scale_colour_manual(values = c("darkturquoise", "orange"))+
   labs(x = '', y = chla_y_title,
        title = "Open Water Lake Sites")
@@ -206,6 +223,7 @@ dat4 %>%
   geom_line(aes(x = date_sampled, y = result, color = site), size = 1) +
   geom_hline(yintercept = 6.6, linetype='longdash', color = 'gray18', size = 1.5)+
   geom_point(aes(x = date_sampled, y = result, color = site), size = 3) +
+  scale_colour_manual(values = sitecolours) +
   theme_classic()+
   theme(legend.title = element_blank(),  # everything in theme is strictly aesthetics
         legend.position = "bottom",
@@ -232,18 +250,18 @@ dat4 %>%
   geom_point(aes(x = date_sampled, y = result, color = result > 6.6, shape = site), size = 3) +
   theme_classic()+
   theme(# everything in theme is strictly aesthetics
-    legend.position = "bottom",
-    legend.text = element_text(size=12),
-    axis.title.x = element_blank(),
-    axis.title.y = element_text(size=13),
-    axis.ticks = element_line(color='black'),
-    plot.caption = element_text(size=6, face='italic'),
-    axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
-    axis.text.y = element_text(size=12, color='black'),
-    axis.ticks.x = element_line(color='black'),
-    title = element_text(size = 13, face='bold'),
-    panel.grid.minor = element_blank(),
-    panel.grid.major = element_line(color='gray95'))+
+        legend.position = "bottom",
+        legend.text = element_text(size=12),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(size=13),
+        axis.ticks = element_line(color='black'),
+        plot.caption = element_text(size=6, face='italic'),
+        axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
+        axis.text.y = element_text(size=12, color='black'),
+        axis.ticks.x = element_line(color='black'),
+        title = element_text(size = 13, face='bold'),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_line(color='gray95'))+
   scale_y_continuous(expand = c(0,0))+
   scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y')+
   scale_colour_manual(values = c("darkturquoise", "orange"))+
