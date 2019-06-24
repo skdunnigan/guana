@@ -1,9 +1,9 @@
 # chlorophyll loops
 
 # by waterbody, full timeframe
-dat_lake <- dat3 %>%
+dat_lake <- dat4 %>%
   filter(WBID == "Lake" & component_short == "CHLa_UnC")
-dat_river <- dat3 %>%
+dat_river <- dat4 %>%
   filter(WBID == "River" & component_short == "CHLa_UnC")
 # list of values to loop over
 uniq_sites_l = unique(dat_lake$site)
