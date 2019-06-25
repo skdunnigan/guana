@@ -1,10 +1,10 @@
 # correlations
 
 # run code before
-source('R/00_loadpackages.R')
-source('R/01_load_wrangle.R')
-source('R/01_guana_wrangle_tidy.R')
-source('R/06_guana_nut_wide.R')
+# source('R/00_loadpackages.R')
+# source('R/01_load_wrangle.R')
+# source('R/01_guana_wrangle_tidy.R')
+# source('R/06_guana_nut_wide.R')
 
 # all help came from:
 # http://www.sthda.com/english/wiki/ggcorrplot-visualization-of-a-correlation-matrix-using-ggplot2
