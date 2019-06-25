@@ -1,3 +1,9 @@
+# run code before
+# source('R/00_loadpackages.R')
+# source('R/00_vis_custom.R')
+# source('R/01_load_wrangle.R')
+# source('R/01_guana_wrangle_tidy.R')
+
 # Nitrogen information
 dat_N <- dat4 %>%
   select(site, date_sampled, component_short,
@@ -9,8 +15,8 @@ dat_N_wide <- dat_N %>%
   spread(key = component_short, value = result) %>%
   ungroup() %>%
   as.data.frame()
-str(dat_N_wide)
-View(dat_N_wide)
+# str(dat_N_wide)
+# View(dat_N_wide)
 
 # calculate a new TN, since it is not reported for each month = TKN + NO23
 dat_N_wide$TN_calc <- dat_N_wide$TKN + dat_N_wide$NO23F
@@ -26,7 +32,7 @@ dat_N2 <- dat_N_wide %>%
   select(-NO23F, -TN, -TKN, -DTKN, -NH4_N) %>%
   melt(id.vars = c("site", "date_sampled", "month", "day", "year", "WBID", "sitetype"),
        measure.vars = c("TN_calc", "DIN", "DON"))
-
+rm(dat_N_wide)
 # make a scatterplot figure of the different nitrogen types
 dat_N2 %>%
   filter(site == "Guana River") %>%

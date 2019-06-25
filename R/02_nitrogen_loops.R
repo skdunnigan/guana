@@ -1,3 +1,10 @@
+# run code before
+# source('R/00_loadpackages.R')
+# source('R/00_vis_custom.R')
+# source('R/01_load_wrangle.R')
+# source('R/01_guana_wrangle_tidy.R')
+# source('R/02_totalnitrogen.R')
+
 # by waterbody, full timeframe
 dat_lake <- dat_N2 %>%
   filter(WBID == "Lake")%>%
