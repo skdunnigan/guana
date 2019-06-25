@@ -2,10 +2,10 @@
 source('R/01_load_wrangle.R')
 source('R/01_guana_wrangle_tidy.R')
 
-# this is to make data wider, good for qaqc
+# this is to make data wider, good for qaqc and what Jessica needs for ArcPro
 
 dat_nut_alpha <- dat4 %>%
-  select(site, station_code, date_sampled, sitetype, WBID, component_short, result)
+  select(site, latitude, longitude, station_code, date_sampled, sitetype, WBID, component_short, result)
 
 dat_nut <- dat_nut_alpha %>%
   group_by(station_code, date_sampled, component_short) %>%
