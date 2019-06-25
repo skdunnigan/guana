@@ -9,7 +9,8 @@ dat_nut_alpha <- dat4 %>%
 
 dat_nut <- dat_nut_alpha %>%
   group_by(station_code, date_sampled, component_short) %>%
-  spread(key = component_short, value = result)
+  spread(key = component_short, value = result) %>%
+  ungroup()
 
 rm(dat_nut_alpha)
 
