@@ -3,13 +3,14 @@
 # source('R/00_vis_custom.R')
 # source('R/01_load_wrangle.R')
 # source('R/01_guana_wrangle_tidy.R')
+# source('R/06_guana_nut_wide.R') # this will give the dat_nut data frame
 # source('R/02_totalnitrogen.R')
 
 # by waterbody, full timeframe
-dat_lake <- dat_N2 %>%
+dat_lake <- dat_N %>%
   filter(WBID == "Lake")%>%
   filter(between(date_sampled, as.POSIXct("2018-01-01"), as.POSIXct("2019-06-30")))
-dat_river <- dat_N2 %>%
+dat_river <- dat_N %>%
   filter(WBID == "River")%>%
   filter(between(date_sampled, as.POSIXct("2018-01-01"), as.POSIXct("2019-06-30")))
 # list of values to loop over
