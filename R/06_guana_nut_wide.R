@@ -22,3 +22,13 @@ dat_nut2[is.na(dat_nut2)] <- " "
 dat_nut2<-as.data.frame(dat_nut2)
 
 write_csv(dat_nut2, "output/data_wide.csv")
+rm(dat_nut2)
+
+# pull out date information
+dat_nut$month <- month(dat_nut$date_sampled)
+dat_nut$day <- day(dat_nut$date_sampled)
+dat_nut$year <- as.character(year(dat_nut$date_sampled))
+dat_nut$date <- paste(dat_nut$year, dat_nut$month,
+                      dat_nut$day, sep="-") %>%
+  ymd() %>%
+  as.Date()
