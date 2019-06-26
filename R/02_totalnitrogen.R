@@ -3,20 +3,9 @@
 # source('R/00_vis_custom.R')
 # source('R/01_load_wrangle.R')
 # source('R/01_guana_wrangle_tidy.R')
+# source('R/06_guana_nut_wide.R') # this will give the dat_nut data frame
 
-# Nitrogen information
-dat_N <- dat4 %>%
-  select(site, date_sampled, component_short,
-         result, month, day, year, WBID, sitetype) %>%
-  dplyr::filter(component_short %in% c("TN", "NO23F", "TKN", "DTKN", "NH4_N"))
-
-dat_N_wide <- dat_N %>%
-  group_by(site, date_sampled) %>%
-  spread(key = component_short, value = result) %>%
-  ungroup() %>%
-  as.data.frame()
-# str(dat_N_wide)
-# View(dat_N_wide)
+dat_N_wide <- dat_nut
 
 # calculate a new TN, since it is not reported for each month = TKN + NO23
 dat_N_wide$TN_calc <- dat_N_wide$TKN + dat_N_wide$NO23F
@@ -27,14 +16,20 @@ dat_N_wide$DIN <- dat_N_wide$NH4_N + dat_N_wide$NO23F
 # calculate DON, which is DTKN - NH4
 dat_N_wide$DON <- dat_N_wide$DTKN - dat_N_wide$NH4_N
 
-# melt it all back together again
-dat_N2 <- dat_N_wide %>%
-  select(-NO23F, -TN, -TKN, -DTKN, -NH4_N) %>%
+# remove all but the nitrogen values
+# melt back together again for plotting
+dat_N <- dat_N_wide %>%
+  select(site, date_sampled, month,day, year, WBID, sitetype,
+         -NO23F, -TN, -TKN, -DTKN, -NH4_N,
+         TN_calc, DIN, DON) %>%
   melt(id.vars = c("site", "date_sampled", "month", "day", "year", "WBID", "sitetype"),
        measure.vars = c("TN_calc", "DIN", "DON"))
+
+# remove the wide data frame, no longer needed
 rm(dat_N_wide)
+
 # make a scatterplot figure of the different nitrogen types
-dat_N2 %>%
+dat_N %>%
   filter(site == "Guana River") %>%
   filter(between(date_sampled, as.POSIXct("2018-01-01"), as.POSIXct("2019-06-30"))) %>%
   ggplot() +
@@ -59,7 +54,7 @@ dat_N2 %>%
   labs(x = '', y = 'Nitrogen (mg/L)',
        title = 'Nitrogen at Guana River')
 
-dat_N2 %>%
+dat_N %>%
   filter(site == "Lake Middle", variable != "TN_calc") %>%
   filter(between(date_sampled, as.POSIXct("2018-01-01"), as.POSIXct("2019-06-30"))) %>%
   ggplot() +
