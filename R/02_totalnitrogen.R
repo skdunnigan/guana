@@ -3,7 +3,7 @@
 # source('R/00_vis_custom.R')
 # source('R/01_load_wrangle.R')
 # source('R/01_guana_wrangle_tidy.R')
-# source('R/06_guana_nut_wide.R') # this will give the dat_nut data frame
+source('R/06_guana_nut_wide.R') # this will give the dat_nut data frame
 
 dat_N_wide <- dat_nut
 
@@ -76,3 +76,29 @@ dat_N %>%
         panel.grid.major = element_line(color='gray95'))+
   scale_y_continuous(expand = c(0,0))+
   scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y')
+
+# line lakes
+dat_N %>%
+  filter(WBID == "Lake" & variable == "TN_calc" & sitetype == "OpenWater") %>%
+  ggplot() +
+  geom_line(aes(x = date_sampled, y = value, color = site), size = 1) +
+  geom_point(aes(x = date_sampled, y = value, color = site), size = 3) +
+  scale_colour_manual(values = sitecolours) +
+  theme_classic() +
+  theme(legend.title = element_blank(),  # everything in theme is strictly aesthetics
+        legend.position = "bottom",
+        legend.text = element_text(size=12),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(size=13),
+        axis.ticks = element_line(color='black'),
+        plot.caption = element_text(size=6, face='italic'),
+        axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
+        axis.text.y = element_text(size=12, color='black'),
+        axis.ticks.x = element_line(color='black'),
+        plot.title = element_text(size = 16, face='bold'),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_line(color='gray95'))+
+  scale_y_continuous(expand = c(0,0))+
+  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels = '%b-%y')+
+  labs(x = '', y = nitro_y_title,
+       title = "Open Water Lake Sites")
