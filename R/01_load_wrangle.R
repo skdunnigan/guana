@@ -4,7 +4,7 @@
 # ---------------------------------------------------
 # read in guana data file\
 # ---------------------------------------------------
-dat <- read_xlsx("data/data-0626.xlsx", sheet = 'Sheet1') %>% janitor::clean_names()
+dat <- read_xlsx("data/data-0716-qaqc.xlsx", sheet = 'Sheet1') %>% janitor::clean_names()
 #janitor::clean_names() function cleans up the column header names!
 
 # inspect the data file
