@@ -15,13 +15,13 @@ entero_y_title <- expression(paste("Enterococcus MPN/100mL"))
 # create color palette for sites
 sitecolours <- c(
   Micklers = "#F8766D",
-  `FDEP Lake 1` = "#D89000",
-  `FDEP Lake 2` = "#A3A500",
+  `GL1` = "#D89000",
+  `GL2` = "#A3A500",
   `Lake Middle` = "#39B600",
-  `FDEP Lake 4` = "#00BF7D",
+  `GL4` = "#00BF7D",
   `Lake South` = "#00BFC4",
   `River North` = "#00B0F6",
-  `FDEP River 1` = "#9590FF",
+  `GR1` = "#9590FF",
   `Guana River` = "#E76BF3",
-  `FDEP River 3` = "#FF62BC"
+  `GR3` = "#FF62BC"
 )

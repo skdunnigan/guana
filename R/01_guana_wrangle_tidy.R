@@ -22,50 +22,50 @@ dat$year <- as.character(year(dat$date_sampled))
 unique(dat$station_code)
 
 # these are what we want to rename, in order of latitude
-# SPECIAL NOTE: Lake Middle is also FDEP Lake 3 and Guana River is also FDEP River 2
+# SPECIAL NOTE: Lake Middle is also GL3 and Guana River is also GR2
 
 ### GTMMKNUT -> Micklers
-### GTMGL1NUT -> FDEP Lake1
-### GTMGL2NUT -> FDEP Lake2
+### GTMGL1NUT -> GL1
+### GTMGL2NUT -> GL2
 ### GTMOLNUT -> Lake Middle
 ### GTMLMNUT -> Lake Middle
-### GTMGL4NUT -> FDEP Lake4
+### GTMGL4NUT -> GL4
 ### GTMDNNUT -> Lake South
 ### GTMLSNUT -> Lake South
 ### GTMDSNUT -> River North
 ### GTMRNNUT -> River North
-### GTMGR1NUT -> FDEP River1
+### GTMGR1NUT -> GR1
 ### GTMGRNUT -> Guana River
-### GTMGR3NUT -> FDEP River3
+### GTMGR3NUT -> GR3
 
 # first make vectors for each site
 Micklers <- c("GTMMKNUT", NA)
-FDEPLake1 <-c("GTMGL1NUT", NA)
-FDEPLake2 <-c("GTMGL2NUT", NA)
+GL1 <-c("GTMGL1NUT", NA)
+GL2 <-c("GTMGL2NUT", NA)
 LakeMiddle <- c("GTMOLNUT", "GTMLMNUT")
-FDEPLake4 <- c("GTMGL4NUT", NA)
+GL4 <- c("GTMGL4NUT", NA)
 LakeSouth <- c("GTMDNNUT", "GTMLSNUT")
 RiverNorth <- c("GTMDSNUT", "GTMRNNUT")
-FDEPRiver1 <- c("GTMGR1NUT", NA)
+GR1 <- c("GTMGR1NUT", NA)
 GuanaRiver <- c("GTMGRNUT", NA)
-FDEPRiver3 <- c("GTMGR3NUT", NA)
+GR3 <- c("GTMGR3NUT", NA)
 
 # bind the vectors into a data frame
 siteID <- bind_cols("Micklers" = Micklers,
-                    "FDEP Lake 1" = FDEPLake1,
-                    "FDEP Lake 2" = FDEPLake2,
+                    "GL1" = GL1,
+                    "GL2" = GL2,
                     "Lake Middle" = LakeMiddle,
-                    "FDEP Lake 4" = FDEPLake4,
+                    "GL4" = GL4,
                     "Lake South" = LakeSouth,
                     "River North" = RiverNorth,
-                    "FDEP River 1" = FDEPRiver1,
+                    "GR1" = GR1,
                     "Guana River" = GuanaRiver,
-                    "FDEP River 3" = FDEPRiver3) %>%
+                    "GR3" = GR3) %>%
   gather(key = "site", value = "station_code")
 
 # remove the vectors, we don't need them anymore
 rm(Micklers, LakeMiddle, LakeSouth, RiverNorth, GuanaRiver,
-   FDEPLake1, FDEPLake2, FDEPLake4, FDEPRiver1, FDEPRiver3)
+   GL1, GL2, GL4, GR1, GR3)
 
 # merge site names with dataframe
 dat2 <- merge(dat, siteID, by="station_code", all.x=TRUE)
@@ -73,23 +73,23 @@ dat2 <- merge(dat, siteID, by="station_code", all.x=TRUE)
 # set site as factor with levels, helps with ordering
 dat2$site <- as.factor(dat2$site)
 dat2$site <- factor(dat2$site, levels = c("Micklers",
-                                          "FDEP Lake 1",
-                                          "FDEP Lake 2",
+                                          "GL1",
+                                          "GL2",
                                           "Lake Middle",
-                                          "FDEP Lake 4",
+                                          "GL4",
                                           "Lake South",
                                           "River North",
-                                          "FDEP River 1",
+                                          "GR1",
                                           "Guana River",
-                                          "FDEP River 3"))
+                                          "GR3"))
 
 # clean up the global environment
 rm(siteID)
 # ------------------------------------------------------
 # add information on WBID
 # ------------------------------------------------------
-# Micklers, Lake Middle, Lake South, FDEP Lake 1, FDEP Lake 2, FDEP Lake 4 -> Lake
-# River North, Guana River, FDEP River 1, FDEP River 3 -> River
+# Micklers, Lake Middle, Lake South, GL1, GL2, GL4 -> Lake
+# River North, Guana River, GR, GR3 -> River
 
 # first make vectors for each site
 Lake <- c("GTMMKNUT", "GTMOLNUT", "GTMLMNUT", "GTMDNNUT",
@@ -120,14 +120,14 @@ rm(WBID)
 # ------------------------------------------------------
 # add information on WBID sites used for regulation
 # ------------------------------------------------------
-# Lake Middle, FDEP Lake 1, FDEP Lake 2, FDEP Lake 4 -> Lake
-# Guana River, FDEP River 1 -> River
+# Lake Middle, GL1, GL2, GL4 -> Lake
+# Guana River, GR1, GR3 -> River
 
 # first make vectors for each site
-Open_water <- c("Lake Middle", "FDEP Lake 1",
-              "FDEP Lake 2", "FDEP Lake 4",
-              "Guana River", "FDEP River 1",
-               "FDEP River 3", NA)
+Open_water <- c("Lake Middle", "GL1",
+              "GL2", "GL4",
+              "Guana River", "GR1",
+               "GR3", NA)
 WaterControl <- c("Micklers", "Lake South",
               "River North", NA, NA, NA, NA, NA)
 

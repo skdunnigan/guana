@@ -210,7 +210,7 @@ dat4 %>%
 
 # lake
 dat4 %>%
-  filter(WBID == "Lake" & component_short == "CHLa_UnC" & sitetype == "OpenWater") %>%
+  filter(WBID == "Lake" & component_short == "CHLa_C" & sitetype == "OpenWater") %>%
   ggplot() +
   geom_line(aes(x = date_sampled, y = result, color = site), size = 1) +
   geom_hline(yintercept = 11, linetype = 'longdash', color = 'gray18', size = 1.5) +
@@ -223,7 +223,7 @@ dat4 %>%
         axis.title.x = element_blank(),
         axis.title.y = element_text(size=13),
         axis.ticks = element_line(color='black'),
-        plot.caption = element_text(size=6, face='italic'),
+        plot.caption = element_text(size=10, face='italic'),
         axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
         axis.text.y = element_text(size=12, color='black'),
         axis.ticks.x = element_line(color='black'),
@@ -233,7 +233,8 @@ dat4 %>%
   scale_y_continuous(expand = c(0,0))+
   scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels = '%b-%y')+
   labs(x = '', y = chla_y_title,
-       title = "Open Water Lake Sites")
+       title = "Open Water Lake Sites",
+       caption = "Dashed horizontal line represents the Florida state standard for chlorophyll a in a Class III Estuary (11 ug/L)")
 
 dat4 %>%
   filter(WBID == "Lake" & component_short == "CHLa_UnC" & sitetype == "OpenWater") %>%
