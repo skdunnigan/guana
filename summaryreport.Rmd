@@ -1,0 +1,53 @@
+---
+title: "Guana Water Quality Two-Year Summary Report"
+author: "Shannon Dunnigan"
+date: "7/22/2019"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+```
+
+```{r load, include = FALSE}
+source('R/00_loadpackages.R')
+source('R/00_vis_custom.R')
+source('R/01_load_wrangle.R')
+source('R/01_guana_wrangle_tidy.R')
+source('R/01_guana_wrangle_qaqc.R')
+source('R/01_met_wrangle.R')
+source('R/01_guana_nut_wide.R')
+```
+
+## Background
+
+Monthly water sample collections began in the Guana system in July 2017 with five sites: Micklers, Lake Middle, Lake South, River North and Guana River. This totaled to three stations in the Guana Lake and two in the Guana River. All water samples were sent to ALS Environmental Labs in Jacksonville, FL for nutrient analyses. 
+
+Starting in July 2018, at the conclusion of the one-year pilot study, an additional five sampling stations were added after input and additional funding from Florida Department of Environmental Protection’s (FDEP) Division of Environmental Assessment and Restoration (DEAR) and Florida Fish and Wildlife Conservation Commission (FWC). The original five stations, plus these new five stations, were then sampled for another full year (see map).
+
+![Map of Water Quality Sampling Stations in Guana Lake and River between 2017-2019.](images/Guana_10sites.png)
+
+All of the data included in the calculations and figures below has been provisionally reviewed but has not gone through a quality assurance and quality check (QAQC) process with GTMNERR staff. The attached figures are also not finalized products as an official two-year project report is still in progress at this time. For any further questions, please reach out to the project’s principal investigator, Dr. Nikki Dix (Nikki.Dix@floridadep.gov).
+
+## Parameters available in data set
+
+```{r parametertable, echo = FALSE}
+a <- as.data.frame(unique(dat4$component_long))
+a$observation <- 1:nrow(a)
+b <- as.data.frame(unique(dat4$component_short))
+b$observation <- 1:nrow(b)
+table <- dplyr::full_join(a, b, by = 'observation')
+
+table <- table[,c(1,3)]
+
+# rename columns
+colnames(table)[1] <- "Parameter"
+colnames(table)[2] <- "Abbrev"
+rm(a, b)
+
+knitr::kable(table)
+
+```
+
