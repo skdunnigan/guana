@@ -124,7 +124,6 @@ dat_qaqc <- dat_qaqcwide %>%
          w_br_ic, f_w_br_ic,
          w_cl_ic, f_w_cl_ic,
          w_color, f_w_color,
-         w_f, f_w_f,
          w_so4_ic, f_w_so4_ic,
          w_tds, f_w_tds,
          w_toc, f_w_toc,
