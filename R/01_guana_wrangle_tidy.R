@@ -147,3 +147,5 @@ rm(REGsites)
 # clean up old data frames
 rm(dat2, dat3)
 
+# remove rejected flagged values <-3>
+dat4 <- dat4[-c(559),]

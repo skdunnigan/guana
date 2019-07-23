@@ -13,9 +13,11 @@
 # compute correlation matrix
 # ------------------------------------------------------------------
 # subset dat_nut from 06_guana_nut_wide.R to only include specific parameters
+dat_nut$TN_calc <- dat_nut$TKN + dat_nut$NO23F
+
 dat_nut_corr <- dat_nut %>%
   select(ATEMP, DO_p, DO, SALT, SpCond, pH, SECCHI, WDEPTH, WTEM,
-         CHLa_UnC, ENTERO, FECCOL, DTKN, NO23F, NH4_N, TKN, TN, TP,
+         CHLa_UnC, ENTERO, FECCOL, DTKN, NO23F, NH4_N, TKN, TN_calc, TP,
          -site, -latitude, -longitude, -station_code, -date_sampled, -sitetype, -WBID)
 dat_nut_corr <- data.matrix(dat_nut_corr) # make it a data frame
 # compute correlation matrix
