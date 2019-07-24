@@ -10,6 +10,8 @@ nitro_y_title <- expression(paste("Total Nitrogen mg/L"))
 fecal_y_title <- expression(paste("Fecal coliform CFU/100mL"))
 # create label for enterococcus plots
 entero_y_title <- expression(paste("Enterococcus MPN/100mL"))
+# create label for temperature title
+temp_y_title <- expression(paste("Temperature ("~degree*C*")"))
 
 
 # create color palette for sites
