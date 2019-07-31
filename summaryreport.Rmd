@@ -25,7 +25,7 @@ source('R/01_guana_nut_wide.R')
 
 # Background
 
-The objective of this study effort was to quantify spatial/temporal variability of selected water quality parameters within the Guana system. Water quality observations in this system have been very limited historically and this study aimed to develop a baseline survey of water quality conditions over a variety of seasonal conditions and a spatial gradient. Besides the spatial gradient objective, sites were selected at Mickler’s weir and either side of Guana dam to study hydrologic connections. 
+The objective of this study effort was to quantify spatial/temporal variability of selected water quality parameters within the Guana system. Water quality observations in this system have been very limited historically and this study aimed to develop a baseline survey of water quality conditions over a variety of seasonal conditions and a spatial gradient. Besides the spatial gradient objective, sites were selected at Mickler's weir and either side of Guana dam to study hydrologic connections. 
 
 Monthly water sample collections began in the Guana system in July 2017 with five sites: Micklers, Lake Middle, Lake South, River North and Guana River. This totaled to three stations in the Guana Lake and two in the Guana River. Starting in July 2018, at the conclusion of the one-year pilot study, an additional five sampling stations were added after input and additional funding from FDEP's Division of Environmental Assessment and Restoration (DEAR) and Florida Fish and Wildlife Conservation Commission (FWC). The original five stations, plus these new five stations, were then sampled for another full year (Figure 1).
 
@@ -63,7 +63,7 @@ met_dat_monthly %>%
 
 Seasonal variation in temperature within the Reserve follows that of rainfall with a summer period of high temperatures between June and September and a cooler period extending from December through March. The average  air temperature recorded at the FDEP-Stevens Tolomato River Platform <http://fldep-stevens.com/station.php?site=8720494> during the timeframe of the sampling was 21.5 (C). 
 
-The headwaters of the Guana River originate in the Diego Plains drainage area in Ponte Vedra Beach. This drainage basin encompasses approximately 7,800 acres (3,157 hectares). The Guana River runs parallel to the Tolomato on the seaward side, with the two lagoons joining 7 miles (11.3 km) north of the St. Augustine Inlet. The natural hydrology of the Guana Tolomato Matanzas system has been somewhat altered by water control structures, including dikes, inland wells, drainage ditches and a dam across a portion of the Guana River. Guana Lake receives water from the north at Mickler’s weir and water periodically exhanges with Guana River through the Guana dam depending on water level management and tidal conditions. As such, there often is a distinct latitudinal gradient in salinity within the lake, as evident in data collected at the time of water sample collections (Figure 2).
+The headwaters of the Guana River originate in the Diego Plains drainage area in Ponte Vedra Beach. This drainage basin encompasses approximately 7,800 acres (3,157 hectares). The Guana River runs parallel to the Tolomato on the seaward side, with the two lagoons joining 7 miles (11.3 km) north of the St. Augustine Inlet. The natural hydrology of the Guana Tolomato Matanzas system has been somewhat altered by water control structures, including dikes, inland wells, drainage ditches and a dam across a portion of the Guana River. Guana Lake receives water from the north at Mickler's weir and water periodically exhanges with Guana River through the Guana dam depending on water level management and tidal conditions. As such, there often is a distinct latitudinal gradient in salinity within the lake, as evident in data collected at the time of water sample collections (Figure 2).
 
 ```{r salinityplot, echo = FALSE, fig.width = 7, fig.cap = "Figure 2: Salinity (psu) measured at each sampling station on the day of water sample collections."}
 dat4 %>%
@@ -124,7 +124,7 @@ dat4 %>%
 
 All samples were obtained during the same ebb tide of each sampling day and within one day of the GTMNERR monthly collections for nutrient analyses at the System-Wide Monitoring Program stations. No distinction was made between neap and spring tide conditions. All water samples were sent to ALS Environmental Labs in Jacksonville, FL for nutrient and bacterial analyses with the exception of September and December 2018 and February and May 2019, which were sent to the Florida Department of Environmental Protection (FDEP) Central Laboratory in Tallahassee, FL. In September 2018 and February 2019, additional samples were taken and sent to Source Molecular Labs in Miami, FL for fecal source tracking. *For more specific information regarding methodology, please see the provided metadata report*. 
 
-All of the data included in the calculations and figures have been provisionally reviewed by GTMNERR staff. Included in the dataset are laboratory remarks, which use the FDEP lab codes, and flags, which are determined using the National Estuarine Research Reserve (NERR) System's Centralized Data Management Office (CDMO). The Data Management Manual can be downloaded from <http://cdmo.baruch.sc.edu/request-manuals/>. For any further questions, please reach out to the project’s principal investigator, Dr. Nikki Dix (Nikki.Dix@floridadep.gov).
+All of the data included in the calculations and figures have been provisionally reviewed by GTMNERR staff. Included in the dataset are laboratory remarks, which use the FDEP lab codes, and flags, which are determined using the National Estuarine Research Reserve (NERR) System's Centralized Data Management Office (CDMO). The Data Management Manual can be downloaded from <http://cdmo.baruch.sc.edu/request-manuals/>. For any further questions, please reach out to the project's principal investigator, Dr. Nikki Dix (Nikki.Dix@floridadep.gov).
 
 ## Parameters available in data set
 
@@ -148,7 +148,7 @@ rm(table)
 
 # Physical and Chemical Indicators of Water Quality
 
-## Dissolved oxygen (% saturation), turbidity, total suspended solids, and sucralose. 
+### Dissolved oxygen (% saturation), turbidity, total suspended solids, and sucralose. 
 
 ```{r doplot, echo = FALSE, fig.width = 7, fig.cap = "Figure 4: Dissolved oxygen (% saturation) measured at each sampling station on the day of water sample collections. Horizontal line represents the Florida state threshold criteria of 38% saturation for both Class II and III estuarine waters."}
 dat4 %>%
@@ -233,7 +233,16 @@ dat4 %>%
 knitr::include_graphics("images/Sucralose gradient_Sept 2018.png")
 ```
 
-## Nutrients: nitrogen and phosphorus
+## Nutrients: 
+
+### Nitrogen
+
+**Sources:** Nonpoint source, organic waste, detergents, fertilizer, manure, industrial effluent, internal loading (bottom sediment)
+
+**Major contributor:** Soil erosion during flooding.
+
+Under normal conditions, phosphorus is usually a limiting nutrient. Phosphorus attaches to soil particles and easily enters the system through run off or flooding. This means we should expect to see TP increase during/after the recharging of the lake? Is that what is happening?
+
 
 ```{r TNplot, echo = FALSE, fig.height = 7.5, fig.width = 6, fig.cap = "Figure x: Total Nitrogen (mg/L) collected at each sampling station on the day of water sample collections in the lake (A) and river (B). Horizontal line represents the Florida state threshold criteria for Class II estuarine waters (0.65 mg/L)."}
 # use the dat_nut dataframe from 
@@ -302,6 +311,16 @@ gridExtra::grid.arrange(a, b)
 rm(a,b)
 ```
 
+
+###  Phosphorus
+
+**Sources:** Fertilizers (chemical and animal), sewage, atmosphere, animal waste
+
+**Major contributor:** Rainwater runoff
+
+Like phosphorous, nitrogen is essential to aquatic ecosystems. In abundance it causes ecological imbalance, resulting in rapid growth of algal blooms, which reduce water quality. 
+
+
 ```{r TPplot, echo = FALSE, fig.height = 7.5, fig.width = 6, fig.cap = "Figure x: Total Phosphorus (mg/L) collected at each sampling station on the day of water sample collections in the lake (A) and river (B). Horizontal line represents the Florida state threshold criteria for Class II estuarine waters (0.105 mg/L)."}
 # lake threshold is narrative, but river is 0.105 mg/L 
 # lake
@@ -363,6 +382,8 @@ rm(a,b)
 ```
 
 # Biological Indicators
+
+## Plant Pigments
 
 The chlorophyll *a* data presented in the figures and used in calculations of the annual geometric mean has had the pheophytin correction. 
 
@@ -427,6 +448,257 @@ gridExtra::grid.arrange(a, b)
 rm(a,b)
 ```
 
+## Bacteria
+
+```{r fecalplot, echo = FALSE, fig.height = 7.5, fig.width = 6, fig.cap = "Figure x: Fecal coliform (MPN/100mL) concentrations collected at each sampling station on the day of water sample collections in the lake (A) and river (B). Horizontal lines represent the Florida state threshold criteria for Class II estuarine waters (43 MPN/100mL) ."}
+# lake threshold is NA, but river is 43 MPN/100mL 
+# lake
+a <- dat4 %>%
+  filter(WBID == "Lake" & component_short == "FECCOL") %>%
+  ggplot() +
+  geom_line(aes(x = date_sampled, y = result, color = site), size = 1) +
+  geom_point(aes(x = date_sampled, y = result, color = site), size = 3) +
+  scale_colour_manual(values = sitecolours) +
+  theme_classic() +
+  theme(legend.title = element_blank(), # everything in theme is strictly aesthetics
+        legend.position = "bottom",
+        legend.text = element_text(size=12),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(size=13),
+        axis.ticks = element_line(color='black'),
+        plot.caption = element_text(size=6, face='italic'),
+        axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
+        axis.text.y = element_text(size=12, color='black'),
+        axis.ticks.x = element_line(color='black'),
+        plot.title = element_text(size = 16, face='bold'),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_line(color='gray95')) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y') +
+  labs(x = '', y = fecal_y_title,
+       title = "A") 
+
+b <- dat4 %>%
+  filter(WBID == "River" & component_short == "FECCOL") %>%
+  ggplot() +
+  geom_line(aes(x = date_sampled, y = result, color = site), size = 1) +
+  geom_point(aes(x = date_sampled, y = result, color = site), size = 3) +
+  geom_hline(yintercept = 43, linetype = 'longdash', color = 'gray18', size = 1.5) +
+  scale_colour_manual(values = sitecolours) +
+  theme_classic() +
+  theme(legend.title = element_blank(), # everything in theme is strictly aesthetics
+        legend.position = "bottom",
+        legend.text = element_text(size=12),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(size=13),
+        axis.ticks = element_line(color='black'),
+        plot.caption = element_text(size=6, face='italic'),
+        axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
+        axis.text.y = element_text(size=12, color='black'),
+        axis.ticks.x = element_line(color='black'),
+        plot.title = element_text(size = 16, face='bold'),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_line(color='gray95')) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y') +
+  labs(x = '', y = fecal_y_title,
+       title = "B")
+
+gridExtra::grid.arrange(a, b)
+
+# clean up
+rm(a,b)
+
+```
+
+```{r fecalplot_adj, echo = FALSE, fig.height = 7.5, fig.width = 6, fig.cap = "Figure x: Fecal coliform (MPN/100mL) concentrations collected at each sampling station on the day of water sample collections in the lake (A) and river (B) with adjusted axis in the lake. Horizontal lines represent the Florida state threshold criteria for Class II estuarine waters (43 MPN/100mL) ."}
+# lake threshold is NA, but river is 43 MPN/100mL 
+# lake
+a <- dat4 %>%
+  filter(WBID == "Lake" & component_short == "FECCOL") %>%
+  ggplot() +
+  geom_line(aes(x = date_sampled, y = result, color = site), size = 1) +
+  geom_point(aes(x = date_sampled, y = result, color = site), size = 3) +
+  scale_colour_manual(values = sitecolours) +
+  theme_classic() +
+  theme(legend.title = element_blank(), # everything in theme is strictly aesthetics
+        legend.position = "bottom",
+        legend.text = element_text(size=12),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(size=13),
+        axis.ticks = element_line(color='black'),
+        plot.caption = element_text(size=6, face='italic'),
+        axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
+        axis.text.y = element_text(size=12, color='black'),
+        axis.ticks.x = element_line(color='black'),
+        plot.title = element_text(size = 16, face='bold'),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_line(color='gray95')) +
+  # scale_y_continuous(expand = c(0,0)) +
+  ylim(0, 700) +
+  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y') +
+  labs(x = '', y = fecal_y_title,
+       title = "A") 
+
+b <- dat4 %>%
+  filter(WBID == "River" & component_short == "FECCOL") %>%
+  ggplot() +
+  geom_line(aes(x = date_sampled, y = result, color = site), size = 1) +
+  geom_point(aes(x = date_sampled, y = result, color = site), size = 3) +
+  geom_hline(yintercept = 43, linetype = 'longdash', color = 'gray18', size = 1.5) +
+  scale_colour_manual(values = sitecolours) +
+  theme_classic() +
+  theme(legend.title = element_blank(), # everything in theme is strictly aesthetics
+        legend.position = "bottom",
+        legend.text = element_text(size=12),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(size=13),
+        axis.ticks = element_line(color='black'),
+        plot.caption = element_text(size=6, face='italic'),
+        axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
+        axis.text.y = element_text(size=12, color='black'),
+        axis.ticks.x = element_line(color='black'),
+        plot.title = element_text(size = 16, face='bold'),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_line(color='gray95')) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y') +
+  labs(x = '', y = fecal_y_title,
+       title = "B")
+
+gridExtra::grid.arrange(a, b)
+
+# clean up
+rm(a,b)
+
+```
+
+```{r enteroplot, echo = FALSE, fig.height = 7.5, fig.width = 6, fig.cap = "Figure x: Enterococcus bacteria (MPN/100mL) concentrations collected at each sampling station on the day of water sample collections in the lake (A) and river (B). Horizontal lines represent the Florida state threshold criteria for Class II and III estuarine waters (38 MPN/100mL) ."}
+# lake and river threshold is 43 MPN/100mL 
+# lake
+a <- dat4 %>%
+  filter(WBID == "Lake" & component_short == "ENTERO") %>%
+  ggplot() +
+  geom_line(aes(x = date_sampled, y = result, color = site), size = 1) +
+  geom_point(aes(x = date_sampled, y = result, color = site), size = 3) +
+  geom_hline(yintercept = 38, linetype = 'longdash', color = 'gray18', size = 1.5) +
+  scale_colour_manual(values = sitecolours) +
+  theme_classic() +
+  theme(legend.title = element_blank(), # everything in theme is strictly aesthetics
+        legend.position = "bottom",
+        legend.text = element_text(size=12),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(size=13),
+        axis.ticks = element_line(color='black'),
+        plot.caption = element_text(size=6, face='italic'),
+        axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
+        axis.text.y = element_text(size=12, color='black'),
+        axis.ticks.x = element_line(color='black'),
+        plot.title = element_text(size = 16, face='bold'),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_line(color='gray95')) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y') +
+  labs(x = '', y = entero_y_title,
+       title = "A") 
+
+b <- dat4 %>%
+  filter(WBID == "River" & component_short == "ENTERO") %>%
+  ggplot() +
+  geom_line(aes(x = date_sampled, y = result, color = site), size = 1) +
+  geom_point(aes(x = date_sampled, y = result, color = site), size = 3) +
+  geom_hline(yintercept = 38, linetype = 'longdash', color = 'gray18', size = 1.5) +
+  scale_colour_manual(values = sitecolours) +
+  theme_classic() +
+  theme(legend.title = element_blank(), # everything in theme is strictly aesthetics
+        legend.position = "bottom",
+        legend.text = element_text(size=12),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(size=13),
+        axis.ticks = element_line(color='black'),
+        plot.caption = element_text(size=6, face='italic'),
+        axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
+        axis.text.y = element_text(size=12, color='black'),
+        axis.ticks.x = element_line(color='black'),
+        plot.title = element_text(size = 16, face='bold'),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_line(color='gray95')) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y') +
+  labs(x = '', y = entero_y_title,
+       title = "B")
+
+gridExtra::grid.arrange(a, b)
+
+# clean up
+rm(a,b)
+
+```
+
+
+```{r enteroplot_adj, echo = FALSE, fig.height = 7.5, fig.width = 6, fig.cap = "Figure x: Enterococcus bacteria (MPN/100mL) concentrations collected at each sampling station on the day of water sample collections in the lake (A) and river (B) with adjusted axis in the lake. Horizontal lines represent the Florida state threshold criteria for Class II and III estuarine waters (38 MPN/100mL) ."}
+# lake and river threshold is 43 MPN/100mL 
+# lake
+a <- dat4 %>%
+  filter(WBID == "Lake" & component_short == "ENTERO") %>%
+  ggplot() +
+  geom_line(aes(x = date_sampled, y = result, color = site), size = 1) +
+  geom_point(aes(x = date_sampled, y = result, color = site), size = 3) +
+  geom_hline(yintercept = 38, linetype = 'longdash', color = 'gray18', size = 1.5) +
+  scale_colour_manual(values = sitecolours) +
+  theme_classic() +
+  theme(legend.title = element_blank(), # everything in theme is strictly aesthetics
+        legend.position = "bottom",
+        legend.text = element_text(size=12),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(size=13),
+        axis.ticks = element_line(color='black'),
+        plot.caption = element_text(size=6, face='italic'),
+        axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
+        axis.text.y = element_text(size=12, color='black'),
+        axis.ticks.x = element_line(color='black'),
+        plot.title = element_text(size = 16, face='bold'),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_line(color='gray95')) +
+  # scale_y_continuous(expand = c(0,0)) +
+  ylim(0, 350) +
+  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y') +
+  labs(x = '', y = entero_y_title,
+       title = "A") 
+
+b <- dat4 %>%
+  filter(WBID == "River" & component_short == "ENTERO") %>%
+  ggplot() +
+  geom_line(aes(x = date_sampled, y = result, color = site), size = 1) +
+  geom_point(aes(x = date_sampled, y = result, color = site), size = 3) +
+  geom_hline(yintercept = 38, linetype = 'longdash', color = 'gray18', size = 1.5) +
+  scale_colour_manual(values = sitecolours) +
+  theme_classic() +
+  theme(legend.title = element_blank(), # everything in theme is strictly aesthetics
+        legend.position = "bottom",
+        legend.text = element_text(size=12),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(size=13),
+        axis.ticks = element_line(color='black'),
+        plot.caption = element_text(size=6, face='italic'),
+        axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
+        axis.text.y = element_text(size=12, color='black'),
+        axis.ticks.x = element_line(color='black'),
+        plot.title = element_text(size = 16, face='bold'),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_line(color='gray95')) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y') +
+  labs(x = '', y = entero_y_title,
+       title = "B")
+
+gridExtra::grid.arrange(a, b)
+
+# clean up
+rm(a,b)
+
+```
+
 # Assessment Criteria
 
 ```{r agmcalc, include = FALSE}
@@ -455,7 +727,7 @@ colnames(agms_l_WBID_table_ass)[1] <- "Parameter Abbrev."
 
 # create output table
 knitr::kable(agms_l_WBID_table_ass,
-             caption = "Table x: Annual Geometric Means for water quality parameters collected in Guana Lake used in assessment by Florida Department of Environmental Protection. “Year 1” (July 2017-June 2018), only includes data collected at the Lake Middle site. “Year 2” (July 2018 – June 2019), all open water lake sites are presented. ")
+             caption = "Table x: Annual Geometric Means for water quality parameters collected in Guana Lake used in assessment by Florida Department of Environmental Protection. 'Year 1' (July 2017-June 2018), only includes data collected at the Lake Middle site. 'Year 2' (July 2018 - June 2019), all open water lake sites are presented. ")
 
 # cleanup
 rm(agms_l_WBID, agms_l_WBID_table_ass)
@@ -476,7 +748,7 @@ colnames(agms_r_WBID_table_ass)[1] <- "Parameter Abbrev."
 
 # create output table
 knitr::kable(agms_r_WBID_table_ass,
-             caption = "Annual Geometric Means for water quality parameters collected in Guana River used in assessment by Florida Department of Environmental Protection. “Year 1” (July 2017-June 2018), only includes data collected at the Lake Middle site. “Year 2” (July 2018 – June 2019), all open water lake sites are presented.")
+             caption = "Annual Geometric Means for water quality parameters collected in Guana River used in assessment by Florida Department of Environmental Protection. 'Year 1' (July 2017-June 2018), only includes data collected at the Lake Middle site. 'Year 2' (July 2018 - June 2019), all open water lake sites are presented.")
 
 # cleanup
 rm(agms_r_WBID, agms_r_WBID_table_ass)
@@ -485,6 +757,14 @@ rm(agms_r_WBID, agms_r_WBID_table_ass)
 # Discussion
 
 ## Guana Dam 
+
+The FWC maintains water and salinity levels of Guana Lake through the use of swing gates in Guana Dam. The gates allow for controlled discharge and recharge of the lake while still maintaining two-way flow. The lake drawdown usually begins mid-February and last through April. During this period, lake water is discharged through the dam at a rate of approximately six inches per month until desired water levels are reached. Lake recharge usually takes place between July and October with the intent of maintaining marine strength salinity at the south end of the lake and a salinity of 8-12 ppt at Six Mile Landing, which is near the GL2 Site. 
+
+In 2018 the dam was closed for construction, and water exchange between the lake and river ceased. The first closure occurred at the end of March and lasted for three months, roughly. During this time, the lake side underwent little change in salinity levels. Mid-July the dam was reopened for a month and an initial lake discharge followed by a brief recharge was performed. This reopening lead to the convergence of salinity levels between the river sites and Lake South. Salinity levels on the river side dropped by an average of 20.30% across all river sites. This sudden change in salinity can be attributed to discharge of mesohaline waters into the system as well as an increase in rainfall during the summer months. The lake side also saw a change in salinity; however, Lake South, which lies just north of the dam, was the only noticeably impacted site. Lake South salinity levels increased from 8.93 ppt to 11.49 ppt, a 29% increase. 
+
+Again the dam was closed in August and remained closed until October. After the second closure, salinity levels between the river sites and Lake South diverged. The river side salinities increased to or above previous levels, while the Lake South site decreased to its prior salinity level. 
+With reopening of the dam at the end of October, the converging effect between the two sides was not as drastic for the river sites. River levels did decrease across all sites, but the major difference was seen on the lake side. Whereas with the first reopening only Lake South seemed to be affected, the second reopening resulted in significant increases at Lake South, GL4, and Lake Middle (91%, 107%, 89% increase, respectively). The difference between the two reopenings was a result of the how the dam structure was setup for water exchange. Instead of a discharge, the second reopening was immediately followed with a lake recharge which allowed for more exchange of polyhaline waters from Guana River. 
+
 
 "for instance...salinities converge"
 
