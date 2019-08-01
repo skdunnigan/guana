@@ -1,5 +1,6 @@
 ---
-title: "Guana Water Quality Two-Year Summary Report"
+title: "Guana Water Quality"
+subtitle: "Two-Year Summary Report"
 author: "Shannon Dunnigan"
 date: "7/22/2019"
 output: 
@@ -35,9 +36,13 @@ Monthly water sample collections began in the Guana system in July 2017 with fiv
 knitr::include_graphics("images/Guana_10sites.png")
 ```
 
+The GTMNERR's System-Wide Monitoring Program (SWMP) water quality and nutrient station located in the Tolomato River (30.05085, -81.367467) was used as a reference station for this study. This station has had monthly water samples collected for analysis since 2002. The objective of the SWMP is to quantify the spatial/temporal variability and trends (both seasonally and as a function of tidal forcing) of selected nutrient parameters within the Reserve and to explore how these are related to concurrently generated data sonde and meteorological data.
+
 ## Characterization
 
-Northeast Florida has a humid subtropical climate characteristic of the Gulf and Atlantic coastal plain of the southeastern United States. The average annual rainfall is approximately 52 inches (132 cm) per year, with the wet season extending from June through September. During the study period, Hurricane Irma (September 2017) brought abnormally high amounts of precipitation to the area and the effects of this storm were observed for many months following the event (Figure 1).
+Northeast Florida has a humid subtropical climate characteristic of the Gulf and Atlantic coastal plain of the southeastern United States. Seasonal variation in temperature within the Reserve follows that of rainfall with a summer period of high temperatures between June and September and a cooler period extending from December through March. The average  air temperature recorded at the FDEP-Stevens Tolomato River Platform <http://fldep-stevens.com/station.php?site=8720494> during the timeframe of the sampling was 21.5 (C). 
+
+The average annual rainfall is approximately 52 inches (132 cm) per year, with the wet season extending from June through September. During the study period, Hurricane Irma (September 2017) brought abnormally high amounts of precipitation to the area and the effects of this storm were observed for many months following the event (Figure 1).
 
 ```{r prcpplot, echo = FALSE, fig.width = 7, fig.cap = "Figure 1: Monthly total rainfall during the study period (July 2017 - June 2019) observed at the Florida Department of Environmental Protection's Tolomato River Station #872-0494 <http://fldep-stevens.com/station.php?site=8720494>."}
 # convert mm rainfall into inches
@@ -63,18 +68,19 @@ met_dat_monthly %>%
   labs(x = 'date', y = 'rainfall (inches)')
 ```
 
-Seasonal variation in temperature within the Reserve follows that of rainfall with a summer period of high temperatures between June and September and a cooler period extending from December through March. The average  air temperature recorded at the FDEP-Stevens Tolomato River Platform <http://fldep-stevens.com/station.php?site=8720494> during the timeframe of the sampling was 21.5 (C). 
+
+### Guana
 
 The headwaters of the Guana River originate in the Diego Plains drainage area in Ponte Vedra Beach. This drainage basin encompasses approximately 7,800 acres (3,157 hectares). The Guana River runs parallel to the Tolomato on the seaward side, with the two lagoons joining 7 miles (11.3 km) north of the St. Augustine Inlet. The natural hydrology of the Guana Tolomato Matanzas system has been somewhat altered by water control structures, including dikes, inland wells, drainage ditches and a dam across a portion of the Guana River. Guana Lake receives water from the north at Mickler's weir and water periodically exhanges with Guana River through the Guana dam depending on water level management and tidal conditions. As such, there often is a distinct latitudinal gradient in salinity within the lake, as evident in data collected at the time of water sample collections (Figure 2).
 
-```{r salinityplot, echo = FALSE, fig.width = 7, fig.cap = "Figure 2: Salinity (psu) measured at each sampling station on the day of water sample collections. Black line represents data collected at "}
+```{r salinityplot, echo = FALSE, fig.width = 7, fig.cap = "Figure 2: Salinity (psu) measured at each sampling station on the day of water sample collections. Black line represents data collected at the GTMNERR Pine Island System-Wide Monitoring Program station"}
 dat4 %>%
   filter(component_short == "SALT") %>%
   ggplot() +
   geom_line(aes(x = date_sampled, y = result, color = site), size = 1) +
   geom_point(aes(x = date_sampled, y = result, color = site), size = 3) +
-  geom_line(data = swmp_dat_w, aes(x = date_sampled, y = salt_n), color = "black", size = 1) +
-  geom_point(data = swmp_dat_w, aes(x = date_sampled, y = salt_n), color = "black", size = 3) +
+  geom_line(data = swmp_dat_w, aes(x = date_sampled, y = salt_n), color = "grey18", size = 1) +
+  # geom_point(data = swmp_dat_w, aes(x = date_sampled, y = salt_n), color = "grey18", size = 3) +
   scale_colour_manual(values = sitecolours) +
   theme_classic() +
   theme(legend.title = element_blank(), # everything in theme is strictly aesthetics
@@ -103,6 +109,8 @@ dat4 %>%
   ggplot() +
   geom_line(aes(x = date_sampled, y = result, color = site), size = 1) +
   geom_point(aes(x = date_sampled, y = result, color = site), size = 3) +
+  geom_line(data = swmp_dat_w, aes(x = date_sampled, y = wtem_n), color = "gray18", size = 1) +
+  # geom_point(data = swmp_dat_w, aes(x = date_sampled, y = wtem_n), color = "gray18", size = 3) +
   scale_colour_manual(values = sitecolours) +
   theme_classic() +
   theme(legend.title = element_blank(), # everything in theme is strictly aesthetics
@@ -124,6 +132,10 @@ dat4 %>%
 ```
 <br>
 
+### Pine Island Reference Station
+
+The Tolomato River Basin is about 18 miles (29 km) in length with a drainage area of approximately 53,802 acres (21,773 hectares); it converges with the Matanzas River and Salt Run from the south before flowing into the Atlantic Ocean at the St. Augustine Inlet. The Pine Island (PI) station is at Channel Marker 25 (30.05085, -81.367467) in the Tolomato River. This site is located within the Guana River Marsh Aquatic Preserve in the northern section of the GTMNERR. Channel Marker 25 is adjacent to Pine Island near the mouth of Deep Creek, which provides freshwater drainage from silviculture-dominated uplands in the northwestern portion of the Tolomato River basin. The average depth at this site is approximately 3.3 m with a tidal range of about 1.6 m; the bottom type is muddy sand. Salinity ranged from 7.2 to 34.5 psu during 2018. 
+
 # Methods
 
 All samples were obtained during the same ebb tide of each sampling day and within one day of the GTMNERR monthly collections for nutrient analyses at the System-Wide Monitoring Program stations. No distinction was made between neap and spring tide conditions. All water samples were sent to ALS Environmental Labs in Jacksonville, FL for nutrient and bacterial analyses with the exception of September and December 2018 and February and May 2019, which were sent to the Florida Department of Environmental Protection (FDEP) Central Laboratory in Tallahassee, FL. In September 2018 and February 2019, additional samples were taken and sent to Source Molecular Labs in Miami, FL for fecal source tracking. *For more specific information regarding methodology, please see the provided metadata report*. 
@@ -133,7 +145,9 @@ All of the data included in the calculations and figures have been provisionally
 
 # Physical and Chemical Indicators of Water Quality
 
-### Dissolved oxygen (% saturation), turbidity, total suspended solids, and sucralose. 
+<br>
+
+### Dissolved oxygen (% saturation), turbidity, and sucralose. 
 
 ```{r doplot, echo = FALSE, fig.width = 7, fig.cap = "Figure 4: Dissolved oxygen (% saturation) measured at each sampling station on the day of water sample collections. Horizontal line represents the Florida state threshold criteria of 38% saturation for both Class II and III estuarine waters."}
 dat4 %>%
@@ -162,7 +176,7 @@ dat4 %>%
   labs(x = '', y = "Dissolved oxygen (% sat)") 
 ```
 
-*Which of the following graphs to use for turbidity/TSS since they both show similar patterns?*
+
 
 ```{r turbplot, echo = FALSE, fig.width = 7, fig.cap = "Figure x: Turbidity (NTU) and Total Suspended Solids (TSS)."}
 dat4 %>%
@@ -246,6 +260,8 @@ b <- dat_nut %>%
   ggplot() +
   geom_line(aes(x = date_sampled, y = TN_calc, color = site), size = 1) +
   geom_point(aes(x = date_sampled, y = TN_calc, color = site), size = 3) +
+  geom_line(data = swmp_dat_w, aes(x = date_sampled, y = tn), color = "gray18", size = 1) +
+  # geom_point(data = swmp_dat_w, aes(x = date_sampled, y = tn), color = "gray18", size = 3) +
   geom_hline(yintercept = 0.65, linetype = 'longdash', color = 'gray18', size = 1.5) +
   scale_colour_manual(values = sitecolours) +
   theme_classic() +
@@ -317,6 +333,8 @@ b <- dat4 %>%
   geom_line(aes(x = date_sampled, y = result, color = site), size = 1) +
   geom_point(aes(x = date_sampled, y = result, color = site), size = 3) +
   geom_hline(yintercept = 0.105, linetype = 'longdash', color = 'gray18', size = 1.5) +
+  geom_line(data = swmp_dat_w, aes(x = date_sampled, y = tp), color = "gray18", size = 1) +
+  # geom_point(data = swmp_dat_w, aes(x = date_sampled, y = tp), color = "gray18", size = 3) +  
   scale_colour_manual(values = sitecolours) +
   theme_classic() +
   theme(legend.title = element_blank(), # everything in theme is strictly aesthetics
@@ -383,6 +401,8 @@ b <- dat4 %>%
   ggplot() +
   geom_line(aes(x = date_sampled, y = result, color = site), size = 1) +
   geom_point(aes(x = date_sampled, y = result, color = site), size = 3) +
+  geom_line(data = swmp_dat_w, aes(x = date_sampled, y = chla_n), color = "gray18", size = 1) +
+  # geom_point(data = swmp_dat_w, aes(x = date_sampled, y = chla_n), color = "gray18", size = 3) +
   geom_hline(yintercept = 6.6, linetype = 'longdash', color = 'gray18', size = 1.5) +
   scale_colour_manual(values = sitecolours) +
   theme_classic() +
@@ -445,6 +465,8 @@ b <- dat4 %>%
   ggplot() +
   geom_line(aes(x = date_sampled, y = result, color = site), size = 1) +
   geom_point(aes(x = date_sampled, y = result, color = site), size = 3) +
+  geom_line(data = swmp_dat_w, aes(x = date_sampled, y = feccol_cfu), color = "gray18", size = 1) +
+  # geom_point(data = swmp_dat_w, aes(x = date_sampled, y = feccol_cfu), color = "gray18", size = 3) +
   geom_hline(yintercept = 43, linetype = 'longdash', color = 'gray18', size = 1.5) +
   scale_colour_manual(values = sitecolours) +
   theme_classic() +
@@ -507,6 +529,8 @@ b <- dat4 %>%
   ggplot() +
   geom_line(aes(x = date_sampled, y = result, color = site), size = 1) +
   geom_point(aes(x = date_sampled, y = result, color = site), size = 3) +
+  geom_line(data = swmp_dat_w, aes(x = date_sampled, y = feccol_cfu), color = "gray18", size = 1) +
+  # geom_point(data = swmp_dat_w, aes(x = date_sampled, y = feccol_cfu), color = "gray18", size = 3) +
   geom_hline(yintercept = 43, linetype = 'longdash', color = 'gray18', size = 1.5) +
   scale_colour_manual(values = sitecolours) +
   theme_classic() +
@@ -716,6 +740,28 @@ knitr::kable(agms_r_WBID_table_ass,
 
 # cleanup
 rm(agms_r_WBID, agms_r_WBID_table_ass)
+```
+
+<br>
+
+```{r swmpagms, echo = FALSE}
+source('R/swmp_agms.R')
+# take the swmpagms table and subset for the assessment parameters
+assparams <- c("chla_n", "feccol_cfu", "tn", "tp")
+
+swmp_agms_ass <- swmp_agms %>%
+  dplyr::filter(component_short %in% assparams)
+
+# reorder rows to match the previous tables in Guana parameters using `match` and `slice`
+swmp_agms_ass <- swmp_agms_ass %>%
+  slice(match(assparams, component_short))
+colnames(swmp_agms_ass)[1] <- "Parameter Abbrev."
+
+knitr::kable(swmp_agms_ass,
+             caption = "Table x: Annual Geometric Means for water quality parameters collected at the GTMNERR System-Wide Monitoring Program Pine Island Station.")
+
+rm(assparams, swmp_agms_ass, swmp_agms)
+
 ```
 
 
