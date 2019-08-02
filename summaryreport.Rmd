@@ -36,7 +36,7 @@ Monthly water sample collections began in the Guana system in July 2017 with fiv
 knitr::include_graphics("images/Guana_10sites.png")
 ```
 
-The GTMNERR's System-Wide Monitoring Program (SWMP) water quality and nutrient station located in the Tolomato River (30.05085, -81.367467) was used as a reference station for this study. This station has had monthly water samples collected for analysis since 2002. The objective of the SWMP is to quantify the spatial/temporal variability and trends (both seasonally and as a function of tidal forcing) of selected nutrient parameters within the Reserve and to explore how these are related to concurrently generated data sonde and meteorological data.
+The Guana Tolomato Matanzas National Estuarine Research Reserve (GTMNERR) is part of a national program and is one of 29 reserves around the country. The cornerstone of the Reserve System is its System-Wide Monitoring Program (SWMP). This national monitoring program was developed to track long-term change and short-term variability to gain a better understanding of how our estuaries function, change over time, and to predict how coastal systems respond to natural and human-induced change. SWMP was implemented at the GTMNERR in 2002 and consists of three core components: water quality, weather, and vegetation. The Reserve's water quality and nutrient station located in the Tolomato River (30.05085, -81.367467) was used as a reference station for this study. This station has had monthly water samples collected for analysis since 2002 and has often served as a baseline for the Guana River. 
 
 ## Characterization
 
@@ -66,6 +66,7 @@ met_dat_monthly %>%
   scale_y_continuous(expand = c(0,0)) +
   scale_x_date(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y')+
   labs(x = 'date', y = 'rainfall (inches)')
+ggsave("output/report/monthlyprcp.png")
 ```
 
 
@@ -80,7 +81,6 @@ dat4 %>%
   geom_line(aes(x = date_sampled, y = result, color = site), size = 1) +
   geom_point(aes(x = date_sampled, y = result, color = site), size = 3) +
   geom_line(data = swmp_dat_w, aes(x = date_sampled, y = salt_n), color = "grey18", size = 1) +
-  # geom_point(data = swmp_dat_w, aes(x = date_sampled, y = salt_n), color = "grey18", size = 3) +
   scale_colour_manual(values = sitecolours) +
   theme_classic() +
   theme(legend.title = element_blank(), # everything in theme is strictly aesthetics
@@ -99,6 +99,7 @@ dat4 %>%
   scale_y_continuous(expand = c(0,0)) +
   scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y') +
   labs(x = '', y = "Salinity (psu)") 
+ggsave("output/report/salinity.png")
 ```
 
 Water temperatures in both the lake and the river follow similar seasonal patterns and do not diverge too much between waterbodies (Figure 3).
@@ -129,12 +130,68 @@ dat4 %>%
   scale_y_continuous(expand = c(0,0)) +
   scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y') +
   labs(x = '', y = temp_y_title) 
+ggsave("output/report/wtemp.png")
 ```
 <br>
 
 ### Pine Island Reference Station
 
 The Tolomato River Basin is about 18 miles (29 km) in length with a drainage area of approximately 53,802 acres (21,773 hectares); it converges with the Matanzas River and Salt Run from the south before flowing into the Atlantic Ocean at the St. Augustine Inlet. The Pine Island (PI) station is at Channel Marker 25 (30.05085, -81.367467) in the Tolomato River. This site is located within the Guana River Marsh Aquatic Preserve in the northern section of the GTMNERR. Channel Marker 25 is adjacent to Pine Island near the mouth of Deep Creek, which provides freshwater drainage from silviculture-dominated uplands in the northwestern portion of the Tolomato River basin. The average depth at this site is approximately 3.3 m with a tidal range of about 1.6 m; the bottom type is muddy sand. Salinity ranged from 7.2 to 34.5 psu during 2018. 
+
+## Guana Dam 
+
+The FWC maintains water and salinity levels of Guana Lake through the use of swing gates in Guana Dam. The gates allow for controlled discharge and recharge of the lake while still maintaining two-way flow. The lake drawdown usually begins mid-February and last through April. During this period, lake water is discharged through the dam at a rate of approximately six inches per month until desired water levels are reached. Lake recharge usually takes place between July and October with the intent of maintaining marine strength salinity at the south end of the lake and a salinity of 8-12 ppt at Six Mile Landing, which is near the GL2 Site. 
+
+In 2018 the dam was closed for construction, and water exchange between the lake and river ceased. The first closure occurred at the end of March and lasted for roughly three months. During this time, the lake side underwent little change in salinity levels. Mid-July the dam was reopened for a month and an initial lake discharge followed by a brief recharge was performed. This reopening lead to the convergence of salinity levels between the river sites and Lake South (Figure). Salinity levels on the river side dropped by an average of 20.30% across all river sites. This sudden change in salinity can be attributed to discharge of mesohaline waters into the system as well as an increase in rainfall during the summer months. The lake side also saw a change in salinity; however, Lake South, which lies just north of the dam, was the only noticeably impacted site. Lake South salinity levels increased from 8.93 ppt to 11.49 ppt, a 29% increase. 
+
+```{r salinitydamplot, echo = FALSE, fig.width = 7, fig.cap = "Figure #: Salinity (psu) measured at each sampling station on the day of water sample collections. Vertical lines indicate status of the Guana Dam during construction in 2018. Dashed lines are when the dam was closed off for construction and the dotted lines are when it was opened again for water exchange."}
+dat4 %>%
+  filter(component_short == "SALT") %>%
+  ggplot() +
+  geom_line(aes(x = date_sampled, y = result, color = site), size = 1) +
+  geom_point(aes(x = date_sampled, y = result, color = site), size = 3) +
+  geom_vline(aes(xintercept = as.integer(as.POSIXct("2018-03-26"))),
+             col="black", linetype='dashed', size=1) + # closed dam
+  geom_vline(aes(xintercept = as.integer(as.POSIXct("2018-07-11"))),
+             col="black", linetype='dotted', size=1) + # opened dam
+  geom_vline(aes(xintercept = as.integer(as.POSIXct("2018-08-08"))),
+             col="black", linetype='dashed', size=1) + # closed dam
+  geom_vline(aes(xintercept = as.integer(as.POSIXct("2018-10-30"))),
+             col="black", linetype='dotted', size=1) + # opened dam
+  scale_colour_manual(values = sitecolours) +
+  theme_classic() +
+  theme(legend.title = element_blank(), # everything in theme is strictly aesthetics
+        legend.position = "bottom",
+        legend.text = element_text(size=12),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(size=13),
+        axis.ticks = element_line(color='black'),
+        plot.caption = element_text(size=6, face='italic'),
+        axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
+        axis.text.y = element_text(size=12, color='black'),
+        axis.ticks.x = element_line(color='black'),
+        plot.title = element_text(size = 16, face='bold'),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_line(color='gray95')) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y') +
+  labs(x = '', y = "Salinity (psu)") 
+ggsave("output/report/salinity_gdam.png")
+```
+
+Again the dam was closed in August and remained closed until October. After the second closure, salinity levels between the river sites and Lake South diverged. The river side salinities increased to or above previous levels, while the Lake South site decreased to its prior salinity level. 
+With reopening of the dam at the end of October, the converging effect between the two sides was not as drastic for the river sites. River levels did decrease across all sites, but the major difference was seen on the lake side. Whereas with the first reopening only Lake South seemed to be affected, the second reopening resulted in significant increases at Lake South, GL4, and Lake Middle (91%, 107%, 89% increase, respectively). The difference between the two reopenings was a result of the how the dam structure was setup for water exchange. Instead of a discharge, the second reopening was immediately followed with a lake recharge which allowed for more exchange of polyhaline waters from Guana River. 
+
+## Assessment
+
+Florida’s Department of Environmental Protection (DEP) determines legal water quality standards for each state waterbody. **In the Guana system, there are multiple waterbody types:** the Lake is a Class III Estuary and the River is a Class II Estuary. As such, they have different water quality standards per statute 62.302.530. The following threshold levels are included in the figures used in this report.
+
+```{r criteriatable, echo = FALSE}
+criteria <- read_xlsx("data/criteriadata.xlsx")
+knitr::kable(criteria, 
+             caption = "Table x: Annual Geometric Mean threshold values for nutrient criteria for Class II (River) and Class III (Lake) Estuary waters.")
+rm(criteria)
+```
 
 # Methods
 
@@ -148,6 +205,9 @@ All of the data included in the calculations and figures have been provisionally
 <br>
 
 ### Dissolved oxygen (% saturation), turbidity, and sucralose. 
+
+When plankton (algae) bloom, oxygen in the water gets depleted as the dead algae sink in the water column and are decomposed by bacteria. Hypoxic (oxygen
+poor) conditions often physically stress many of the animals in our estuaries, but anoxic (completely depleted of oxygen) conditions can kill them.
 
 ```{r doplot, echo = FALSE, fig.width = 7, fig.cap = "Figure 4: Dissolved oxygen (% saturation) measured at each sampling station on the day of water sample collections. Horizontal line represents the Florida state threshold criteria of 38% saturation for both Class II and III estuarine waters."}
 dat4 %>%
@@ -173,10 +233,13 @@ dat4 %>%
         panel.grid.major = element_line(color='gray95')) +
   scale_y_continuous(expand = c(0,0)) +
   scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y') +
-  labs(x = '', y = "Dissolved oxygen (% sat)") 
+  labs(x = '', y = "Dissolved oxygen (% sat)")
+ggsave("output/report/do_p.png")
 ```
 
+### Turbidity
 
+[Insert Text Here to describe how important or why we measure turbidity]
 
 ```{r turbplot, echo = FALSE, fig.width = 7, fig.cap = "Figure x: Turbidity (NTU) and Total Suspended Solids (TSS)."}
 dat4 %>%
@@ -202,14 +265,45 @@ dat4 %>%
   scale_y_continuous(expand = c(0,0)) +
   scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y') +
   labs(x = '', y = "Turbidity (NTU)") 
+ggsave("output/report/turbidity.png")
+```
 
+### Sucralose
+
+[Insert Text Here to describe how important or why we test for sucralose]
+
+```{r sucralosetable, echo = FALSE}
+
+sucratab <- dat4 %>%
+  filter(component_short == "Sucra") 
+
+sucratab$date <- as.POSIXct(with(sucratab, paste(year, month, day, sep="-")), "%Y-%m-%d", tz = "America/Regina")
+
+sucratab2 <- sucratab %>%
+  select(date, site, result) %>%
+  spread(key = date, value = result)
+
+# rename columns
+colnames(sucratab2)[1] <- "Site"
+colnames(sucratab2)[2] <- "September 2018"
+colnames(sucratab2)[3] <- "February 2019"
+
+write.csv(sucratab2, "output/report/sucralose.csv")
+
+knitr::kable(sucratab2, 
+             caption = "Table x: Sucralose results")
+
+rm(sucratab, sucratab2)
 ```
 
 ```{r sucraimage, echo = FALSE, fig.cap = "Figure x: Map of interpolated sucralose in Guana system in September 2018."}
 knitr::include_graphics("images/Sucralose gradient_Sept 2018.png")
+
 ```
 
 ## Nutrients: 
+
+In 2000, it was estimated that 60 percent of coastal waters in the United States were moderately to severely affected by nutrient pollution (Howarth et al. 2000). Phosphorus and nitrogen are the most important nutrients for plants to grow. In small amounts they are beneficial to many ecosystems. Thus, they are used in many agricultural and gardening practices for that same purpose. During the rainy season, many of these nutrients are then washed into our inland waterways and estuaries, where they are taken up by aquatic plants for reproduction and growth. This may lead to **eutrophication**, which is the feeding of a waterbody, or the enrichment of water by excess nutrients resulting in an increase in algal biomass.
 
 ### Nitrogen
 
@@ -284,6 +378,8 @@ b <- dat_nut %>%
        title = "B") 
 
 gridExtra::grid.arrange(a, b)
+ggsave("output/report/TNlake.png", plot = a)
+ggsave("output/report/TNriver.png", plot = b)
 
 # clean up
 rm(a,b)
@@ -356,6 +452,8 @@ b <- dat4 %>%
        title = "B")
 
 gridExtra::grid.arrange(a, b)
+ggsave("output/report/TPlake.png", plot = a)
+ggsave("output/report/TPriver.png", plot = b)
 
 # clean up
 rm(a,b)
@@ -365,7 +463,7 @@ rm(a,b)
 
 ## Plant Pigments
 
-The chlorophyll *a* data presented in the figures and used in calculations of the annual geometric mean has had the pheophytin correction. 
+Plankton are the base of aquatic food webs. They, like terrestrial plants, are photosynthetic (containing pigments like chlorophyll *a*) and can harness the energy from the sun to create their own food. They are then the main source of food for many aquatic animals. The chlorophyll *a* data presented in the figures and used in calculations of the annual geometric mean has had the pheophytin correction. 
 
 ```{r chlaplots, echo = FALSE, fig.height = 7.5, fig.width = 6, fig.cap = "Figure x: Chlorophyll a (ug/L) concentrations (with pheophytin correction) collected at each sampling station on the day of water sample collections in the lake (A) and river (B). Horizontal lines represent the Florida state threshold criteria for Class II (6.6 ug/L) and Class III (11 ug/L) estuarine waters."}
 # lake threshold is 11 ug/L, but river is 6.6 ug/L 
@@ -425,12 +523,16 @@ b <- dat4 %>%
        title = "B")
 
 gridExtra::grid.arrange(a, b)
+ggsave("output/report/CHLAlake.png", plot = a)
+ggsave("output/report/CHLAriver.png", plot = b)
 
 # clean up
 rm(a,b)
 ```
 
 ## Bacteria
+
+Fecal indicator bacteria (FIB) are bacteria such as *Escherichia coli* (E. coli) and *Enterococcus*, which live in the gut of warm-blooded animals and are introduced into the environment through fecal matter. Most FIB are harmless to humans, but the presence of FIB indicates that pathogens also found in fecal matter, which are harmful to humans, may also be present. In the Guana system, thresholds are only present for fecal coliform bacteria in the River. 
 
 ```{r fecalplot, echo = FALSE, fig.height = 7.5, fig.width = 6, fig.cap = "Figure x: Fecal coliform (MPN/100mL) concentrations collected at each sampling station on the day of water sample collections in the lake (A) and river (B). Horizontal lines represent the Florida state threshold criteria for Class II estuarine waters (43 MPN/100mL)."}
 # lake threshold is NA, but river is 43 MPN/100mL 
@@ -489,6 +591,8 @@ b <- dat4 %>%
        title = "B")
 
 gridExtra::grid.arrange(a, b)
+ggsave("output/report/fecallake_full.png", plot = a)
+ggsave("output/report/fecalriver.png", plot = b)
 
 # clean up
 rm(a,b)
@@ -553,6 +657,7 @@ b <- dat4 %>%
        title = "B")
 
 gridExtra::grid.arrange(a, b)
+ggsave("output/report/fecallake_abbrev.png", plot = a)
 
 # clean up
 rm(a,b)
@@ -615,12 +720,13 @@ b <- dat4 %>%
        title = "B")
 
 gridExtra::grid.arrange(a, b)
+ggsave("output/report/enterolake_full.png", plot = a)
+ggsave("output/report/enteroriver.png", plot = b)
 
 # clean up
 rm(a,b)
 
 ```
-
 
 ```{r enteroplot_adj, echo = FALSE, fig.height = 7.5, fig.width = 6, fig.cap = "Figure x: Enterococcus bacteria (MPN/100mL) concentrations collected at each sampling station on the day of water sample collections in the lake (A) and river (B) with adjusted axis in the lake. Horizontal lines represent the Florida state threshold criteria for Class II and III estuarine waters (38 MPN/100mL) ."}
 # lake and river threshold is 43 MPN/100mL 
@@ -679,21 +785,24 @@ b <- dat4 %>%
        title = "B")
 
 gridExtra::grid.arrange(a, b)
+ggsave("output/report/enterolake_abbrev.png", plot = a)
 
 # clean up
 rm(a,b)
 
 ```
 
+Bacterial levels at the stations generally did not exceed the water quality standards for their associated waterbody. However, high levels were observed in months following large rainfall events, such as Hurricane Irma in the October 2017 sampling event. 
+
 # Assessment Criteria
 
-<br>
+Florida’s Department of Environmental Protection (DEP) determines legal water quality standards for each state waterbody. **In the Guana system, there are multiple waterbody types:** the Lake is a Class III Estuary and the River is a Class II Estuary. As such, they have different water quality standards per statute 62.302.530.
 
 ```{r agmcalc, include = FALSE}
 source('R/agms.R')
 ```
 
-```{r criteriatable, echo = FALSE}
+```{r criteriatable2, echo = FALSE}
 criteria <- read_xlsx("data/criteriadata.xlsx")
 knitr::kable(criteria, 
              caption = "Table x: Annual Geometric Mean threshold values for nutrient criteria for Class II (River) and Class III (Lake) Estuary waters.")
@@ -717,6 +826,7 @@ colnames(agms_l_WBID_table_ass)[1] <- "Parameter Abbrev."
 knitr::kable(agms_l_WBID_table_ass,
              caption = "Table x: Annual Geometric Means for water quality parameters collected in Guana Lake used in assessment by Florida Department of Environmental Protection. 'Year 1' (July 2017-June 2018), only includes data collected at the Lake Middle site. 'Year 2' (July 2018 - June 2019), all open water lake sites are presented. ")
 
+write.csv(agms_l_WBID_table_ass, "output/report/agms_l_WBID_assess.csv")
 # cleanup
 rm(agms_l_WBID, agms_l_WBID_table_ass)
 ```
@@ -737,6 +847,8 @@ colnames(agms_r_WBID_table_ass)[1] <- "Parameter Abbrev."
 # create output table
 knitr::kable(agms_r_WBID_table_ass,
              caption = "Table x: Annual Geometric Means for water quality parameters collected in Guana River used in assessment by Florida Department of Environmental Protection. 'Year 1' (July 2017-June 2018), only includes data collected at the Lake Middle site. 'Year 2' (July 2018 - June 2019), all open water lake sites are presented.")
+
+write.csv(agms_r_WBID_table_ass, "output/report/agms_r_WBID_assess.csv")
 
 # cleanup
 rm(agms_r_WBID, agms_r_WBID_table_ass)
@@ -760,6 +872,8 @@ colnames(swmp_agms_ass)[1] <- "Parameter Abbrev."
 knitr::kable(swmp_agms_ass,
              caption = "Table x: Annual Geometric Means for water quality parameters collected at the GTMNERR System-Wide Monitoring Program Pine Island Station.")
 
+write.csv(swmp_agms_ass, "output/report/swmp_agms_assess.csv")
+
 rm(assparams, swmp_agms_ass, swmp_agms)
 
 ```
@@ -767,51 +881,7 @@ rm(assparams, swmp_agms_ass, swmp_agms)
 
 # Discussion
 
-## Guana Dam 
-
-The FWC maintains water and salinity levels of Guana Lake through the use of swing gates in Guana Dam. The gates allow for controlled discharge and recharge of the lake while still maintaining two-way flow. The lake drawdown usually begins mid-February and last through April. During this period, lake water is discharged through the dam at a rate of approximately six inches per month until desired water levels are reached. Lake recharge usually takes place between July and October with the intent of maintaining marine strength salinity at the south end of the lake and a salinity of 8-12 ppt at Six Mile Landing, which is near the GL2 Site. 
-
-In 2018 the dam was closed for construction, and water exchange between the lake and river ceased. The first closure occurred at the end of March and lasted for three months, roughly. During this time, the lake side underwent little change in salinity levels. Mid-July the dam was reopened for a month and an initial lake discharge followed by a brief recharge was performed. This reopening lead to the convergence of salinity levels between the river sites and Lake South. Salinity levels on the river side dropped by an average of 20.30% across all river sites. This sudden change in salinity can be attributed to discharge of mesohaline waters into the system as well as an increase in rainfall during the summer months. The lake side also saw a change in salinity; however, Lake South, which lies just north of the dam, was the only noticeably impacted site. Lake South salinity levels increased from 8.93 ppt to 11.49 ppt, a 29% increase. 
-
-Again the dam was closed in August and remained closed until October. After the second closure, salinity levels between the river sites and Lake South diverged. The river side salinities increased to or above previous levels, while the Lake South site decreased to its prior salinity level. 
-With reopening of the dam at the end of October, the converging effect between the two sides was not as drastic for the river sites. River levels did decrease across all sites, but the major difference was seen on the lake side. Whereas with the first reopening only Lake South seemed to be affected, the second reopening resulted in significant increases at Lake South, GL4, and Lake Middle (91%, 107%, 89% increase, respectively). The difference between the two reopenings was a result of the how the dam structure was setup for water exchange. Instead of a discharge, the second reopening was immediately followed with a lake recharge which allowed for more exchange of polyhaline waters from Guana River. 
-
-
-"for instance...salinities converge"
-
-```{r salinitydamplot, echo = FALSE, fig.width = 7, fig.cap = "Figure #: Salinity (psu) measured at each sampling station on the day of water sample collections. Vertical lines indicate status of the Guana Dam during construction in 2018. Dashed lines are when the dam was closed off for construction and the dotted lines are when it was opened again for water exchange."}
-dat4 %>%
-  filter(component_short == "SALT") %>%
-  ggplot() +
-  geom_line(aes(x = date_sampled, y = result, color = site), size = 1) +
-  geom_point(aes(x = date_sampled, y = result, color = site), size = 3) +
-  geom_vline(aes(xintercept = as.integer(as.POSIXct("2018-03-26"))),
-             col="black", linetype='dashed', size=1) + # closed dam
-  geom_vline(aes(xintercept = as.integer(as.POSIXct("2018-07-11"))),
-             col="black", linetype='dotted', size=1) + # opened dam
-  geom_vline(aes(xintercept = as.integer(as.POSIXct("2018-08-08"))),
-             col="black", linetype='dashed', size=1) + # closed dam
-  geom_vline(aes(xintercept = as.integer(as.POSIXct("2018-10-30"))),
-             col="black", linetype='dotted', size=1) + # opened dam
-  scale_colour_manual(values = sitecolours) +
-  theme_classic() +
-  theme(legend.title = element_blank(), # everything in theme is strictly aesthetics
-        legend.position = "bottom",
-        legend.text = element_text(size=12),
-        axis.title.x = element_blank(),
-        axis.title.y = element_text(size=13),
-        axis.ticks = element_line(color='black'),
-        plot.caption = element_text(size=6, face='italic'),
-        axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black'),
-        axis.text.y = element_text(size=12, color='black'),
-        axis.ticks.x = element_line(color='black'),
-        plot.title = element_text(size = 16, face='bold'),
-        panel.grid.minor = element_blank(),
-        panel.grid.major = element_line(color='gray95')) +
-  scale_y_continuous(expand = c(0,0)) +
-  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y') +
-  labs(x = '', y = "Salinity (psu)") 
-```
+<br>
 
 ## Ecology
 
@@ -850,6 +920,8 @@ table <- table[,c(1,3)] # reorder and remove the "observation" column
 colnames(table)[1] <- "Parameter"
 colnames(table)[2] <- "Abbrev"
 rm(a, b)
+
+write.csv(table, "output/report/parametersavailable.csv")
 
 knitr::kable(table,
              caption = "Table x: Parameters available in data set.")
