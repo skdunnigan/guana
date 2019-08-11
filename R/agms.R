@@ -21,7 +21,8 @@ agms_l_site_year1 <- dat4 %>%
            sitetype == "OpenWater") %>%
   group_by(site, component_short) %>%
   summarise(Year1AGM = gmean(result),
-            Year1sd = gmeansd(result))
+            Year1sd = gmeansd(result),
+            Year1Median = median(result))
 
 # WBID Y1
 agms_l_WBID_year1 <- dat4 %>%
@@ -30,7 +31,8 @@ agms_l_WBID_year1 <- dat4 %>%
            sitetype == "OpenWater") %>%
   group_by(WBID, component_short) %>%
   summarise(Year1AGM = gmean(result),
-            Year1sd = gmeansd(result))
+            Year1sd = gmeansd(result),
+            Year1Median = median(result))
 
 # site Y2
 agms_l_site_year2 <- dat4 %>%
@@ -39,7 +41,8 @@ agms_l_site_year2 <- dat4 %>%
            sitetype == "OpenWater") %>%
   group_by(site, component_short) %>%
   summarise(Year2AGM = gmean(result),
-            Year2sd = gmeansd(result))
+            Year2sd = gmeansd(result),
+            Year2Median = median(result))
 
 # WBID Y2
 agms_l_WBID_year2 <- dat4 %>%
@@ -48,7 +51,8 @@ agms_l_WBID_year2 <- dat4 %>%
            sitetype == "OpenWater") %>%
   group_by(WBID, component_short) %>%
   summarise(Year2AGM = gmean(result),
-            Year2sd = gmeansd(result))
+            Year2sd = gmeansd(result),
+            Year2Median = median(result))
 
 # -----------------------------------------------------------
 # River tables
@@ -61,7 +65,8 @@ agms_r_site_year1 <- dat4 %>%
            sitetype == "OpenWater") %>%
   group_by(site, component_short) %>%
   summarise(Year1AGM = gmean(result),
-            Year1sd = gmeansd(result))
+            Year1sd = gmeansd(result),
+            Year1Median = median(result))
 
 # WBID Y1
 agms_r_WBID_year1 <- dat4 %>%
@@ -70,7 +75,8 @@ agms_r_WBID_year1 <- dat4 %>%
            sitetype == "OpenWater") %>%
   group_by(WBID, component_short) %>%
   summarise(Year1AGM = gmean(result),
-            Year1sd = gmeansd(result))
+            Year1sd = gmeansd(result),
+            Year1Median = median(result))
 
 # site Y2
 agms_r_site_year2 <- dat4 %>%
@@ -79,7 +85,8 @@ agms_r_site_year2 <- dat4 %>%
            sitetype == "OpenWater") %>%
   group_by(site, component_short) %>%
   summarise(Year2AGM = gmean(result),
-            Year2sd = gmeansd(result))
+            Year2sd = gmeansd(result),
+            Year2Median = median(result))
 
 # WBID Y2
 agms_r_WBID_year2 <- dat4 %>%
@@ -88,7 +95,8 @@ agms_r_WBID_year2 <- dat4 %>%
            sitetype == "OpenWater") %>%
   group_by(WBID, component_short) %>%
   summarise(Year2AGM = gmean(result),
-            Year2sd = gmeansd(result))
+            Year2sd = gmeansd(result),
+            Year2Median = median(result))
 
 # -----------------------------------------------------------
 # B.   create tables for report ##############
@@ -102,14 +110,18 @@ assparams <- c("CHLa_C", "TN", "TP", "FECCOL", "ENTERO", "DO_p") # create a vect
 agms_l_WBID <- dplyr::full_join(agms_l_WBID_year1, agms_l_WBID_year2, by = 'component_short')
 agms_l_WBID$Year1AGM <- round(agms_l_WBID$Year1AGM, digits=2)
 agms_l_WBID$Year1sd <- round(agms_l_WBID$Year1sd, digits=2)
+agms_l_WBID$Year1Median <- round(agms_l_WBID$Year1Median, digits=2)
 agms_l_WBID$Year2AGM <- round(agms_l_WBID$Year2AGM, digits=2)
 agms_l_WBID$Year2sd <- round(agms_l_WBID$Year2sd, digits=2)
+agms_l_WBID$Year2Median <- round(agms_l_WBID$Year2Median, digits=2)
 # join river years into one table
 agms_r_WBID <- dplyr::full_join(agms_r_WBID_year1, agms_r_WBID_year2, by = 'component_short')
 agms_r_WBID$Year1AGM <- round(agms_r_WBID$Year1AGM, digits=2)
 agms_r_WBID$Year1sd <- round(agms_r_WBID$Year1sd, digits=2)
+agms_r_WBID$Year1Median <- round(agms_r_WBID$Year1Median, digits=2)
 agms_r_WBID$Year2AGM <- round(agms_r_WBID$Year2AGM, digits=2)
 agms_r_WBID$Year2sd <- round(agms_r_WBID$Year2sd, digits=2)
+agms_r_WBID$Year2Median <- round(agms_r_WBID$Year2Median, digits=2)
 
 # cleanup
 rm(agms_r_WBID_year1, agms_r_WBID_year2, agms_l_WBID_year1, agms_l_WBID_year2)
