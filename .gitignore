@@ -7,4 +7,6 @@ reportdocs/
 *.doc
 *.xlsx
 *.csv
+*.png
+*.jpeg
 data/
