@@ -10,3 +10,4 @@ reportdocs/
 *.png
 *.jpeg
 data/
+output/
