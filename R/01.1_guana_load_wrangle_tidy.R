@@ -4,7 +4,11 @@ source('R/00_loadpackages.R')
 
 # ----01 LOAD read in guana nutrient data file----------------------------
 
-dat <- read_xlsx("data/2020-02-25_guana_master_07.17-19.xlsx", sheet = 'Sheet1') %>% janitor::clean_names()
+dat <- read_xlsx(here::here('data', 'guana_master_07.17-20.xlsx'), sheet = 'Sheet1') %>%
+  janitor::clean_names()
+
+dict <- readr::read_csv(here::here('data', 'guana_data_dictionary.csv')) %>%
+  janitor::clean_names()
 #janitor::clean_names() function cleans up the column header names!
 
 # inspect the data file
@@ -12,7 +16,31 @@ head(dat)
 str(dat)
 dplyr::glimpse(dat)
 
+# ---- Keep important columns ----
+dat2 <- dat %>%
+  dplyr::select(unid,
+                station_code,
+                date_sampled,
+                component_short,
+                component_long,
+                result,
+                remark,
+                flag) %>%
+  dplyr::filter(component_short != "WIND_D") %>%
+  dplyr::filter(component_short != "SECCHI") %>%
+  dplyr::mutate(component_long = toupper(component_long),
+                component_short = toupper(component_short))
 
+dat <- dplyr::left_join(dat2, dict, by = "station_code")
+
+# check for spelling and duplication errors in data
+unique(dat$component_short)
+unique(dat$component_long)
+janitor::get_dupes(dat)
+
+View(dat %>%
+  filter(is.na(result))
+)
 # ----02a guana data tidying, part 1 -----------------------------------
 
 # set 'result' column to numerical value, this column contains all the numerical values from the analyses
@@ -179,6 +207,6 @@ rm(dat2, dat3)
 # dat4.5 <- dat4 %>%
 #   filter(flag != "<-3> (CHB)")
 # you can also remove by a specific row number, but you have to find out which one.
-dat4 <- dat4[-c(748),]
+dat4 <- dat4[-c(749),]
 
 unique(dat4$flag)
