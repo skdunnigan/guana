@@ -4,8 +4,18 @@
 
 # this is to make data wider, good for qaqc and what Jessica needs for ArcPro
 
-dat_nut_alpha <- dat4 %>%
-  select(site, latitude, longitude, station_code, date_sampled, sitetype, WBID, component_short, result)
+# dat_nut_alpha <-
+
+  dat4 %>%
+    dplyr::select(station_code, date_sampled,
+                  component_short, result) %>%
+    group_by(station_code, date_sampled) %>%
+    tidyr::pivot_wider(names_from = component_short,
+                       values_from = result)
+
+
+
+
 
 dat_nut <- dat_nut_alpha %>%
   group_by(station_code, date_sampled, component_short) %>%
