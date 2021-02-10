@@ -7,5 +7,6 @@ reportdocs/
 *.doc
 *.png
 *.jpeg
+*.html
 data/old/
 output/
