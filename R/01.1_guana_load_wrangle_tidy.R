@@ -1,23 +1,34 @@
 # code is to bring in data file and do some basic data tidying
+# if you have not run the 00_loadpackages.R you can uncomment the line below and run it
 source('R/00_loadpackages.R')
 
+# if you have not run the  '00_vis_custom.R' you can uncomment the line below and run it
+# gives you specific axis titles and establishes specific colors for sites.
+source('R/00_vis_custom.R')
 
-# ----01 LOAD read in guana nutrient data file----------------------------
 
-dat <- read_xlsx(here::here('data', 'guana_master_07.17-20.xlsx'), sheet = 'Sheet1') %>%
+# ----01a LOAD read in data files -----------------------------------
+# janitor::clean_names() function cleans up the column header names!
+
+# guana nutrient data
+dat <- readxl::read_xlsx(here::here('data', 'guana_master_07.17-20.xlsx'),
+                         sheet = 'Sheet1') %>%
   janitor::clean_names()
 
+# data dictionary with site-specific information
 dict <- readr::read_csv(here::here('data', 'guana_data_dictionary.csv')) %>%
   janitor::clean_names()
-#janitor::clean_names() function cleans up the column header names!
+
 
 # inspect the data file
 head(dat)
 str(dat)
-dplyr::glimpse(dat)
+dplyr::glimpse(dat) # this one is my favorite to use
 
-# ---- Keep important columns ----
+# ---- 01b CLEAN and MERGE: important/relevant columns -----------------------------------
+# then left_join() the dat data frame to the dict data frame to add additional columns
 dat2 <- dat %>%
+  dplyr::filter(station_code != "GTMOLNUT_dup") %>%  # remove the 'duplicate' station that was only sampled for a short while
   dplyr::select(unid,
                 station_code,
                 date_sampled,
@@ -26,187 +37,199 @@ dat2 <- dat %>%
                 result,
                 remark,
                 flag) %>%
-  dplyr::filter(component_short != "WIND_D") %>%
-  dplyr::filter(component_short != "SECCHI") %>%
+  dplyr::filter(!(component_short %in% c("WIND_D", "SECCHI"))) %>% # remove wind direction and secchi
   dplyr::mutate(component_long = toupper(component_long),
                 component_short = toupper(component_short))
 
-dat <- dplyr::left_join(dat2, dict, by = "station_code")
+# CAUTION: rewrites over dat2 dataframe created in previous lines
+# keeps 'dat' as ORIGINAL data that you read in
+dat2 <- dplyr::left_join(dat2, dict, by = "station_code")
 
-# check for spelling and duplication errors in data
-unique(dat$component_short)
-unique(dat$component_long)
-janitor::get_dupes(dat)
 
-View(dat %>%
+# ---- 01c CHECK for spelling and duplication errors in data -----------------------------------
+
+## This is where you can find entry errors. If you notice inconsistencies,
+## you can correct them in excel, save, and run the previous lines of code again with a new file
+
+# make sure both short and long have the same number of entries (~58)
+# should be the same number of entries!
+unique(dat2$component_short) # will pull out all the unique component names
+unique(dat2$component_long) # will pull out the unique component names
+
+# check for duplicates
+# a warning message of 'No duplicate combinations found of...' is a good message!
+janitor::get_dupes(dat2)
+
+# review data for 'NA's (e.g. blank cells)
+View(dat2 %>%
   filter(is.na(result))
 )
-# ----02a guana data tidying, part 1 -----------------------------------
 
-# set 'result' column to numerical value, this column contains all the numerical values from the analyses
-cols.num <- c("result", "mdl", "pql", "mrl", "dilution")
-dat[cols.num] <- sapply(dat[cols.num],as.numeric)
-sapply(dat, class)
-rm(cols.num)
+# ----02a WRANGLE & TIDY -----------------------------------
 
+# set 'result' column to numerical class
 # convert datetimes into POSIXct format
 # pull out date information
+# set 'site' and 'site_friendly' columns as factor with levels
 # remove "duplicate" data
 
-dat <- dat %>%
+dat2 <- dat2 %>%
   dplyr::mutate(date_sampled = as.POSIXct(date_sampled,
                                           format = "%m/%d/%Y %H:%M",
                                           tz = 'America/Regina'),
-                date_received = as.POSIXct(date_received,
-                                           format = "%m/%d/%Y %H:%M",
-                                           tz = 'America/Regina'),
-                date_analyzed = as.POSIXct(date_analyzed,
-                                           format = "%m/%d/%Y %H:%M",
-                                           tz = 'America/Regina'),
+                result = as.numeric(result),
                 month = month(date_sampled),
                 day = day(date_sampled),
-                year = as.character(year(date_sampled))
-                ) %>%
-  dplyr::filter(station_code != "GTMOLNUT_dup")
+                year = as.character(year(date_sampled)), # set year as a character
+                site = factor(site,
+                              levels = c("MICKLERS",
+                                         "DEPGL1",
+                                         "DEPGL2",
+                                         "LAKE MIDDLE",
+                                         "DEPGL4",
+                                         "LAKE SOUTH",
+                                         "RIVER NORTH",
+                                         "DEPGR1",
+                                         "GUANA RIVER",
+                                         "DEPGR3")
+                ),
+                site_friendly = factor(site_friendly,
+                                       levels = c("Micklers",
+                                                  "GL1",
+                                                  "GL2",
+                                                  "Lake Middle",
+                                                  "GL4",
+                                                  "Lake South",
+                                                  "River North",
+                                                  "GR1",
+                                                  "Guana River",
+                                                  "GR3"))
+                )
 
-# dont forget to check the unique component names, uncomment code below if necessary
-# should be the same number of both!
-unique(dat$component_short)
-unique(dat$component_long)
+# ---- 02b CHECK your data again -----------------------------------
 
-# ----02b rename station codes to a site name--------------------------------
+# check components again, to be sure
+unique(dat2$component_short)
+unique(dat2$component_long)
 
-# This is due to the stations taking on different names throughout the sampling period.
+# check years!
+# noticed in previous data versions that data was written incorrectly for '2014'
+unique(dat2$year)
 
-# first look at all the different station names
-unique(dat$station_code)
+# check for duplicates
+# a warning message of 'No duplicate combinations found of...' is a good message!
+janitor::get_dupes(dat2)
 
-# these are what we want to rename, in order of latitude
-# SPECIAL NOTE: Lake Middle is also GL3 and Guana River is also GR2
-# but these names do not make it into the data file, DEP keeps those separate for WIN
+# review data for 'NA's (e.g. blank cells)
+View(dat2 %>%
+       filter(is.na(result))
+)
 
-    ### GTMMKNUT -> Micklers
-    ### GTMGL1NUT -> GL1
-    ### GTMGL2NUT -> GL2
-    ### GTMOLNUT -> Lake Middle
-    ### GTMLMNUT -> Lake Middle
-    ### GTMGL4NUT -> GL4
-    ### GTMDNNUT -> Lake South
-    ### GTMLSNUT -> Lake South
-    ### GTMDSNUT -> River North
-    ### GTMRNNUT -> River North
-    ### GTMGR1NUT -> GR1
-    ### GTMGRNUT -> Guana River
-    ### GTMGR3NUT -> GR3
-
-#  make vectors for each site
-Micklers <- c("GTMMKNUT", NA)
-GL1 <-c("GTMGL1NUT", NA)
-GL2 <-c("GTMGL2NUT", NA)
-LakeMiddle <- c("GTMOLNUT", "GTMLMNUT")
-GL4 <- c("GTMGL4NUT", NA)
-LakeSouth <- c("GTMDNNUT", "GTMLSNUT")
-RiverNorth <- c("GTMDSNUT", "GTMRNNUT")
-GR1 <- c("GTMGR1NUT", NA)
-GuanaRiver <- c("GTMGRNUT", NA)
-GR3 <- c("GTMGR3NUT", NA)
-
-# bind the vectors into a data frame
-siteID <- bind_cols("Micklers" = Micklers,
-                    "GL1" = GL1,
-                    "GL2" = GL2,
-                    "Lake Middle" = LakeMiddle,
-                    "GL4" = GL4,
-                    "Lake South" = LakeSouth,
-                    "River North" = RiverNorth,
-                    "GR1" = GR1,
-                    "Guana River" = GuanaRiver,
-                    "GR3" = GR3) %>%
-  tidyr::pivot_longer(1:10, names_to = "site", values_to = "station_code")
-
-# remove the vectors, we don't need them anymore
-rm(Micklers, LakeMiddle, LakeSouth, RiverNorth, GuanaRiver,
-   GL1, GL2, GL4, GR1, GR3)
-
-# merge site names with dataframe
-dat2 <- merge(dat, siteID, by = "station_code", all.x = TRUE)
-
-# clean up the global environment
-rm(siteID)
-
-# ----02c add information on WBID--------------------------------------
-
-# Micklers, Lake Middle, Lake South, GL1, GL2, GL4 -> Lake
-# River North, Guana River, GR, GR3 -> River
-
-# first make vectors for each site
-Lake <- c("GTMMKNUT", "GTMOLNUT", "GTMLMNUT", "GTMDNNUT",
-          "GTMLSNUT", "GTMGL1NUT", "GTMGL2NUT", "GTMGL4NUT")
-River <- c("GTMDSNUT", "GTMRNNUT","GTMGRNUT", "GTMGR1NUT",
-           "GTMGR3NUT", NA, NA, NA)
-
-# bind the vectors into a data frame
-WBID <- bind_cols("Lake" = Lake, "River" = River) %>%
-  gather(key = "WBID", value = "station_code")
-
-# remove the vectors, we don't need them
-rm(Lake,River)
-
-# merge site names with dataframe
-dat2 <- merge(dat2, WBID, by="station_code", all.x=TRUE)
-
-# clean up the global environment
-rm(WBID)
-
-# ----set site and WBID to be factors with levels, to help with ordering----
-dat3 <- dat2 %>%
-  dplyr::mutate(site = factor(site, levels = c("Micklers",
-                                               "GL1",
-                                               "GL2",
-                                               "Lake Middle",
-                                               "GL4",
-                                               "Lake South",
-                                               "River North",
-                                               "GR1",
-                                               "Guana River",
-                                               "GR3")),
-                WBID = factor(WBID, levels = c("Lake", "River")),
-  )
+# ----03 timeseries-all sites function -----------------------------------
 
 
-# ----02d add information on WBID sites used for regulation----
+all_sites <- function(param, axis_title) {
+  # param - use component_short parameter name in quotes
+  # axis_title - use axis title value from 00_vis_custom.R, no quotes
 
-# Lake Middle, GL1, GL2, GL4 -> Lake
-# Guana River, GR1, GR3 -> River
+p <- dat2 %>%
+  dplyr::filter(component_short == param & end == "N") %>%
+  ggplot(aes(x = date_sampled, y = result, color = site_friendly)) +
+  geom_point(size = 3) +
+  geom_line(size = 1) +
+  scale_colour_manual(name = "Site", values = sitecolours) +
+  cowplot::theme_cowplot() +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y') +
+  theme(axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black')) +
+  labs(y = axis_title,
+       x = "",
+       title = paste(param))
 
-# first make vectors for each site
-Open_water <- c("Lake Middle", "GL1",
-                "GL2", "GL4",
-                "Guana River", "GR1",
-                "GR3", NA)
-WaterControl <- c("Micklers", "Lake South",
-                  "River North", NA, NA, NA, NA, NA)
+p
+}
 
-# bind the vectors into a data frame
-REGsites <- bind_cols("OpenWater" = Open_water, "WaterControl" = WaterControl) %>%
-  tidyr::pivot_longer(1:2, names_to = "sitetype", values_to = "site")
+# use the function to create full timeseries plots of whatever parameter you want, examples below
 
-# remove the vectors, we don't need them anymore
-rm(Open_water, WaterControl)
+all_sites("CHLA_C", chla_y_title) # corrected chlorophyll plot
+all_sites("TP", phos_y_title) # total phosphorus
+all_sites("TN", nitro_y_title) # total nitrogen (this may be incomplete because some values may end up needing to be calculated)
+all_sites("ENTERO", entero_y_title) # enterococcus
+all_sites("FECCOL", fecal_y_title) # fecal coliform
 
-# merge site names with dataframe
-dat4 <- merge(dat3, REGsites, by = "site", all.x=TRUE)
+# ---- 03a EXAMPLES of how to further customize -----------------------------------
 
-# clean up the global environment
-rm(REGsites)
+# not all parameters have a special y_axis title,
+# if you want to label axis that isn't a value from the 00_vis_custom.R,
+# you can do so using quotes. As an example:
+all_sites("SALT", "Salinity (psu)")
 
-# clean up old data frames
-rm(dat2, dat3)
+# to change title name if you don't like default:
+all_sites("CHLA_C", chla_y_title) +
+  labs(title = "New title, you'll want to change me")
 
-# remove rejected flagged values <-3>
-# dat4.5 <- dat4 %>%
-#   filter(flag != "<-3> (CHB)")
-# you can also remove by a specific row number, but you have to find out which one.
-dat4 <- dat4[-c(749),]
+# you can also change the scales of the y axis
+# (notice the difference between this output and the one from the previous line of code)
+all_sites("CHLA_C", chla_y_title) +
+  scale_y_continuous(breaks = c(25, 50, 75, 100, 125, 150, 200))
 
-unique(dat4$flag)
+# to do both:
+all_sites("CHLA_C", chla_y_title) +
+  scale_y_continuous(breaks = c(25, 50, 75, 100, 125, 150, 200))+
+  labs(title = "New title, you'll want to change me")
+
+# ----04 timeseries-split by waterbody function -----------------------------------
+# you are going to want to have lake and river split into two separate graphs
+
+waterbody_sites <- function(param, lake_threshold, river_threshold, axis_title) {
+  # param - use component_short parameter name in quotes
+  # axis_title - use axis title value from 00_vis_custom.R, no quotes
+  # lake_threshold - as number
+  # river_threshold - as number
+
+lake <- dat2 %>%
+  dplyr::filter(component_short == param & end == "N") %>%
+  dplyr::filter(wbid == "Lake") %>%
+  ggplot(aes(x = date_sampled, y = result, color = site_friendly)) +
+  geom_point(size = 3) +
+  geom_line(size = 1) +
+  geom_hline(yintercept = lake_threshold, linetype = 'longdash', color = 'gray18', size = 1.5) +
+  scale_colour_manual(name = "Site", values = sitecolours) +
+  cowplot::theme_cowplot() +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y') +
+  theme(axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black')) +
+  labs(y = axis_title,
+       x = "",
+       title = "Lake",
+       subtitle = paste0("Threshold =", lake_threshold))
+
+river <- dat2 %>%
+  dplyr::filter(component_short == param & end == "N") %>%
+  dplyr::filter(wbid == "River") %>%
+  ggplot(aes(x = date_sampled, y = result, color = site_friendly)) +
+  geom_point(size = 3) +
+  geom_line(size = 1) +
+  geom_hline(yintercept = river_threshold, linetype = 'longdash', color = 'gray18', size = 1.5) +
+  scale_colour_manual(name = "Site", values = sitecolours) +
+  cowplot::theme_cowplot() +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y') +
+  theme(axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black')) +
+  labs(y = axis_title,
+       x = "",
+       title = "River",
+       subtitle = paste0("Threshold =", lake_threshold))
+
+p <- cowplot::plot_grid(lake, river,
+                   ncol = 1)
+
+p
+
+}
+
+# ---- 04a EXAMPLES-----------------------------------
+waterbody_sites("CHLA_C", 11, 6.6, chla_y_title)
+
+waterbody_sites("CHLA_C", lake_threshold = "", 6.6, chla_y_title)
+
