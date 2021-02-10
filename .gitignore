@@ -5,6 +5,7 @@
 reportdocs/
 *.docx
 *.doc
-*.xlsx
-*.csv
-data/
+*.png
+*.jpeg
+data/old/
+output/
