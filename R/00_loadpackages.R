@@ -20,6 +20,7 @@ library(rmarkdown)
 # accessories to ggplot2
 library(cowplot) # additional themes for ggplot2
 library(gridExtra) # grid graphics
+library(patchwork) # grid graphics
 library(scales) # scale functions for visualization
 library(plotly) # create interactive web graphics - use for html output files
 library(ggcorrplot) # visualization of correlation matrix using ggplot2
