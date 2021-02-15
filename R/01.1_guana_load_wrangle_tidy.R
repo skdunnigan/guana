@@ -177,7 +177,7 @@ all_sites("CHLA_C", chla_y_title) +
   scale_y_continuous(breaks = c(25, 50, 75, 100, 125, 150, 200))+
   labs(title = "New title, you'll want to change me")
 
-# ----04 timeseries-split by waterbody function -----------------------------------
+# ---- 04 timeseries-split by waterbody function -----------------------------------
 # you are going to want to have lake and river split into two separate graphs
 
 waterbody_sites <- function(param, lake_threshold, river_threshold, axis_title) {
@@ -232,3 +232,112 @@ waterbody_sites("CHLA_C", 11, 6.6, chla_y_title)
 
 waterbody_sites("CHLA_C", lake_threshold = "", 6.6, chla_y_title)
 
+# ---- 05 boxplots of all sites ----
+
+boxplot_all_sites <- function(param, axis_title) {
+  # param - use component_short parameter name in quotes
+  # axis_title - use axis title value from 00_vis_custom.R, no quotes
+
+  p <- dat2 %>%
+    dplyr::filter(component_short == param & end == "N") %>%
+    ggplot(aes(x = site_friendly, y = result, fill = site_friendly)) +
+    geom_boxplot(alpha = 0.8) +
+    scale_fill_manual(name = "Site", values = sitecolours) +
+    cowplot::theme_cowplot() +
+    scale_y_continuous(expand = c(0,0)) +
+    theme(axis.text.x = element_text(size=12, color='black'),
+          legend.position = "none") +
+    scale_x_discrete(labels = c("Micklers",
+                                "GL1",
+                                "GL2",
+                                "Lake\nMiddle",
+                                "GL4",
+                                "Lake\nSouth",
+                                "River\nNorth",
+                                "GR1",
+                                "Guana\nRiver",
+                                "GR3")) +
+    labs(y = axis_title,
+         x = "",
+         title = paste(param))
+
+  p
+}
+
+# use the function to create box plots of whatever parameter you want, examples below
+boxplot_all_sites("CHLA_C", chla_y_title)
+
+# this function works the same as `all_sites()` for changing titles
+boxplot_all_sites("CHLA_C", chla_y_title) +
+  labs(title = "New title, you'll want to change me")
+
+# or different parameters without designated title
+boxplot_all_sites("SALT", "Salinity (psu)")
+
+# ---- 06 boxplots by waterbody ----
+
+boxplot_wbid <- function(param, axis_title) {
+  # param - use component_short parameter name in quotes
+  # axis_title - use axis title value from 00_vis_custom.R, no quotes
+
+  p <- dat2 %>%
+    dplyr::filter(component_short == param & end == "N") %>%
+    dplyr::filter(wbid == "Lake") %>%
+    ggplot(aes(x = site_friendly, y = result, fill = site_friendly)) +
+    geom_boxplot(alpha = 0.8) +
+    scale_fill_manual(name = "Site", values = sitecolours) +
+    cowplot::theme_cowplot() +
+    scale_y_continuous(expand = c(0,0)) +
+    theme(axis.text.x = element_text(size=12, color='black'),
+          legend.position = "none") +
+    scale_x_discrete(labels = c("Micklers",
+                                "GL1",
+                                "GL2",
+                                "Lake\nMiddle",
+                                "GL4",
+                                "Lake\nSouth",
+                                "River\nNorth",
+                                "GR1",
+                                "Guana\nRiver",
+                                "GR3")) +
+    labs(y = axis_title,
+         x = "",
+         title = paste(param),
+         subtitle = "Guana Lake Sites")
+
+  q <- dat2 %>%
+    dplyr::filter(component_short == param & end == "N") %>%
+    dplyr::filter(wbid == "River") %>%
+    ggplot(aes(x = site_friendly, y = result, fill = site_friendly)) +
+    geom_boxplot(alpha = 0.8) +
+    scale_fill_manual(name = "Site", values = sitecolours) +
+    cowplot::theme_cowplot() +
+    scale_y_continuous(expand = c(0,0)) +
+    theme(axis.text.x = element_text(size=12, color='black'),
+          legend.position = "none") +
+    scale_x_discrete(labels = c("Micklers",
+                                "GL1",
+                                "GL2",
+                                "Lake\nMiddle",
+                                "GL4",
+                                "Lake\nSouth",
+                                "River\nNorth",
+                                "GR1",
+                                "Guana\nRiver",
+                                "GR3")) +
+    labs(y = axis_title,
+         x = "",
+         title = paste(param),
+         subtitle = "Guana River Sites")
+
+p / q
+
+}
+
+
+# use the function to create box plots of whatever parameter you want, examples below
+boxplot_wbid("CHLA_C", chla_y_title)
+
+
+# or different parameters without designated title
+boxplot_wbid("SALT", "Salinity (psu)")
