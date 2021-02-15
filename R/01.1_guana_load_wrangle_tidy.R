@@ -62,7 +62,7 @@ janitor::get_dupes(dat2)
 
 # review data for 'NA's (e.g. blank cells)
 View(dat2 %>%
-  filter(is.na(result))
+  dplyr::filter(is.na(result))
 )
 
 # ----02a WRANGLE & TIDY -----------------------------------
@@ -91,8 +91,7 @@ dat2 <- dat2 %>%
                                          "RIVER NORTH",
                                          "DEPGR1",
                                          "GUANA RIVER",
-                                         "DEPGR3")
-                ),
+                                         "DEPGR3")),
                 site_friendly = factor(site_friendly,
                                        levels = c("Micklers",
                                                   "GL1",
@@ -122,7 +121,7 @@ janitor::get_dupes(dat2)
 
 # review data for 'NA's (e.g. blank cells)
 View(dat2 %>%
-       filter(is.na(result))
+       dplyr::filter(is.na(result))
 )
 
 # ----03 timeseries-all sites function -----------------------------------
