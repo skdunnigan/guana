@@ -12,7 +12,7 @@
   
   - 01b CLEAN and MERGE: important/relevant columns - *this does some tidying and joins the two dataframes together.*
   
-  - 01c CHECK for spelling and duplication errors in data - *includes code like `unique()` and `janitor::get_dupes()` to help in QAQC of your data. Depending on the outcome of this code, you can go back into your Excel file, make the appropriate changes, and then start back at step 01a with the new file.*
+  - 01c CHECK for spelling and duplication errors in data - *includes functions like `unique()` and `janitor::get_dupes()` to help in QAQC of your data. Depending on the outcome of this code, you can go back into your Excel file, make the appropriate changes, and then start back at step 01a with the new file.*
   
   - 02a WRANGLE & TIDY - *this does a lot of tidying to redo class types of data.*
   
