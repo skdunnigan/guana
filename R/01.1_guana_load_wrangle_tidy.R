@@ -53,7 +53,7 @@ dat2 <- dplyr::left_join(dat2, dict, by = "station_code")
 # and to merge the dss and dict dataframes
 dss2 <- dss %>%
   dplyr::mutate(site = toupper(site)) %>%
-  dplyr::filter(!(site %in% c("D", "guana lake"))) %>%
+  dplyr::filter(site != "guana lake") %>%
   dplyr::rename(site_acronym = site)
 
 # CAUTION: rewrites over dat2 dataframe created in previous lines
