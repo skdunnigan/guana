@@ -3,7 +3,8 @@
 
 # ----01 LOAD read in tolomato met file ----
 
-met_dat <- read_xlsx("data/tolomato.xlsx") %>% janitor::clean_names()
+met_dat <- read_xlsx(here::here("data", "tolomato.xlsx")) %>%
+                       janitor::clean_names()
 
 # inspect the data file
 head(met_dat)
