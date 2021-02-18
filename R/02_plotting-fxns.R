@@ -1,14 +1,14 @@
 # code is to bring in data file and do some basic data tidying
 # if you have not run the 00_loadpackages.R you can uncomment the line below and run it
-# source('R/00_loadpackages.R')
+source('R/00_loadpackages.R')
 
 # if you have not run the  '00_vis_custom.R' you can uncomment the line below and run it
 # gives you specific axis titles and establishes specific colors for sites.
-# source('R/00_vis_custom.R')
+source('R/00_vis_custom.R')
 
 # get your data from code below.
 # uncomment if you have not run the code
-#source('R/01.1_guana_load_wrangle_tidy.R')
+source('R/01.1_guana_load_wrangle_tidy.R')
 
 
 
@@ -257,3 +257,74 @@ boxplot_wbid("CHLA_C", chla_y_title)
 
 # or different parameters without designated title
 boxplot_wbid("SALT", "Salinity (psu)")
+
+
+# ---- 05 discharge ----
+
+all_sites_discharge <- function(param, axis_title) {
+  # param - use component_short parameter name in quotes
+  # axis_title - use axis title value from 00_vis_custom.R, no quotes, or new title in quotes.
+
+  p <- dat2 %>%
+    dplyr::filter(component_short == param & end == "N") %>%
+    ggplot(aes(x = date_sampled, y = result, color = site_friendly)) +
+    geom_rect(aes(xmin = as.POSIXct("2018-03-28"),
+                  xmax = as.POSIXct("2018-07-11"),
+                  ymin = 0, ymax = Inf),
+              fill = "grey78",
+              color = NA) +
+    geom_rect(aes(xmin = as.POSIXct("2018-08-08"),
+                  xmax = as.POSIXct("2018-10-25"),
+                  ymin = 0, ymax = Inf),
+              fill = "grey78",
+              color = NA) +
+    geom_rect(aes(xmin = as.POSIXct("2018-12-04"),
+                  xmax = as.POSIXct("2019-03-14"),
+                  ymin = 0, ymax = Inf),
+              fill = "grey87",
+              color = NA) +
+    geom_rect(aes(xmin = as.POSIXct("2019-08-23"),
+                  xmax = as.POSIXct("2019-09-01"),
+                  ymin = 0, ymax = Inf),
+              fill = "grey87",
+              color = NA) +
+    geom_rect(aes(xmin = as.POSIXct("2020-02-17"),
+                  xmax = as.POSIXct("2020-03-10"),
+                  ymin = 0, ymax = Inf),
+              fill = "grey87",
+              color = NA) +
+    geom_rect(aes(xmin = as.POSIXct("2020-08-21"),
+                  xmax = as.POSIXct("2020-11-12"),
+                  ymin = 0, ymax = Inf),
+              fill = "grey87",
+              color = NA) +
+    geom_point(size = 3) +
+    geom_line(size = 1) +
+    geom_vline(aes(xintercept = as.POSIXct("2018-03-28")),
+               size = 1,
+               linetype = "dashed") +
+    geom_vline(aes(xintercept = as.POSIXct("2018-10-25")),
+               size = 1,
+               linetype = "dashed") +
+    geom_vline(aes(xintercept = as.POSIXct("2019-02-01")),
+               size = 1) +
+    geom_vline(aes(xintercept = as.POSIXct("2019-03-14")),
+               size = 1) +
+    geom_vline(aes(xintercept = as.POSIXct("2020-02-17")),
+               size = 1) +
+    geom_vline(aes(xintercept = as.POSIXct("2020-03-10")),
+               size = 1) +
+    scale_colour_manual(name = "Site", values = sitecolours) +
+    cowplot::theme_cowplot() +
+    scale_y_continuous(expand = c(0,0)) +
+    scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y') +
+    theme(axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black')) +
+    labs(y = axis_title,
+         x = "",
+         title = paste(param))
+
+  p
+}
+
+all_sites_discharge("CHLA_C", chla_y_title) # corrected chlorophyll plot
+all_sites_discharge("SALT", "Salinity (psu)")
