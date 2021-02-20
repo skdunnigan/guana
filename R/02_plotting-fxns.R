@@ -73,9 +73,12 @@ wbid_sites <- function(param, wbid, axis_title) {
   # wbid - use wbid "Lake" or "River"
   # axis_title - use axis title value from 00_vis_custom.R, no quotes, or new title in quotes.
 
+  if (wbid == "Lake") {
+
   p <- dat2 %>%
-    dplyr::filter(component_short == param & end == "N") %>%
-    dplyr::filter(wbid == wbid) %>%
+    dplyr::filter(component_short == param &
+                    end == "N" &
+                    wbid == "Lake") %>%
     ggplot(aes(x = date_sampled, y = result, color = site_friendly)) +
     geom_point(size = 3) +
     geom_line(size = 1) +
@@ -87,9 +90,31 @@ wbid_sites <- function(param, wbid, axis_title) {
     labs(y = axis_title,
          x = "",
          title = paste(param),
-         subtitle = paste("In Guana", wbid))
+         subtitle = "In Guana Lake")
 
   p
+
+  }
+  else {
+    q <- dat2 %>%
+      dplyr::filter(component_short == param &
+                      end == "N" &
+                      wbid == "River") %>%
+      ggplot(aes(x = date_sampled, y = result, color = site_friendly)) +
+      geom_point(size = 3) +
+      geom_line(size = 1) +
+      scale_colour_manual(name = "Site", values = sitecolours) +
+      cowplot::theme_cowplot() +
+      scale_y_continuous(expand = c(0,0)) +
+      scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y') +
+      theme(axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black')) +
+      labs(y = axis_title,
+           x = "",
+           title = paste(param),
+           subtitle = "In Guana River")
+
+    q
+  }
 }
 
 wbid_sites_threshold <- function(param, lake_threshold, river_threshold, axis_title) {
@@ -141,7 +166,7 @@ wbid_sites_threshold <- function(param, lake_threshold, river_threshold, axis_ti
 
 # ---- 02a EXAMPLES -----------------------------------
 
-wbid_sites("CHLA_C", "Lake", chla_y_title)
+wbid_sites("CHLA_C", wbid = "Lake", chla_y_title)
 
 
 wbid_sites_threshold("CHLA_C", 11, 6.6, chla_y_title)
@@ -326,5 +351,144 @@ all_sites_discharge <- function(param, axis_title) {
   p
 }
 
+wbid_sites_discharge <- function(param, wbid, axis_title) {
+  # param - use component_short parameter name in quotes
+  # axis_title - use axis title value from 00_vis_custom.R, no quotes, or new title in quotes.
+  # wbid - use wbid "Lake" or "River"
+
+  if (wbid == "Lake") {
+
+    p <- dat2 %>%
+    dplyr::filter(component_short == param &
+                    end == "N" &
+                    wbid == "Lake") %>%
+    ggplot(aes(x = date_sampled, y = result, color = site_friendly)) +
+    geom_rect(aes(xmin = as.POSIXct("2018-03-28"),
+                  xmax = as.POSIXct("2018-07-11"),
+                  ymin = 0, ymax = Inf),
+              fill = "grey78",
+              color = NA) +
+    geom_rect(aes(xmin = as.POSIXct("2018-08-08"),
+                  xmax = as.POSIXct("2018-10-25"),
+                  ymin = 0, ymax = Inf),
+              fill = "grey78",
+              color = NA) +
+    geom_rect(aes(xmin = as.POSIXct("2018-12-04"),
+                  xmax = as.POSIXct("2019-03-14"),
+                  ymin = 0, ymax = Inf),
+              fill = "grey87",
+              color = NA) +
+    geom_rect(aes(xmin = as.POSIXct("2019-08-23"),
+                  xmax = as.POSIXct("2019-09-01"),
+                  ymin = 0, ymax = Inf),
+              fill = "grey87",
+              color = NA) +
+    geom_rect(aes(xmin = as.POSIXct("2020-02-17"),
+                  xmax = as.POSIXct("2020-03-10"),
+                  ymin = 0, ymax = Inf),
+              fill = "grey87",
+              color = NA) +
+    geom_rect(aes(xmin = as.POSIXct("2020-08-21"),
+                  xmax = as.POSIXct("2020-11-12"),
+                  ymin = 0, ymax = Inf),
+              fill = "grey87",
+              color = NA) +
+    geom_point(size = 3) +
+    geom_line(size = 1) +
+    geom_vline(aes(xintercept = as.POSIXct("2018-03-28")),
+               size = 1,
+               linetype = "dashed") +
+    geom_vline(aes(xintercept = as.POSIXct("2018-10-25")),
+               size = 1,
+               linetype = "dashed") +
+    geom_vline(aes(xintercept = as.POSIXct("2019-02-01")),
+               size = 1) +
+    geom_vline(aes(xintercept = as.POSIXct("2019-03-14")),
+               size = 1) +
+    geom_vline(aes(xintercept = as.POSIXct("2020-02-17")),
+               size = 1) +
+    geom_vline(aes(xintercept = as.POSIXct("2020-03-10")),
+               size = 1) +
+    scale_colour_manual(name = "Site", values = sitecolours) +
+    cowplot::theme_cowplot() +
+    scale_y_continuous(expand = c(0,0)) +
+    scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y') +
+    theme(axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black')) +
+    labs(y = axis_title,
+         x = "",
+         title = paste(param),
+         subtitle = "Guana Lake")
+
+  p
+  } else {
+    q <- dat2 %>%
+      dplyr::filter(component_short == param &
+                      end == "N" &
+                      wbid == "River") %>%
+      ggplot(aes(x = date_sampled, y = result, color = site_friendly)) +
+      geom_rect(aes(xmin = as.POSIXct("2018-03-28"),
+                    xmax = as.POSIXct("2018-07-11"),
+                    ymin = 0, ymax = Inf),
+                fill = "grey78",
+                color = NA) +
+      geom_rect(aes(xmin = as.POSIXct("2018-08-08"),
+                    xmax = as.POSIXct("2018-10-25"),
+                    ymin = 0, ymax = Inf),
+                fill = "grey78",
+                color = NA) +
+      geom_rect(aes(xmin = as.POSIXct("2018-12-04"),
+                    xmax = as.POSIXct("2019-03-14"),
+                    ymin = 0, ymax = Inf),
+                fill = "grey87",
+                color = NA) +
+      geom_rect(aes(xmin = as.POSIXct("2019-08-23"),
+                    xmax = as.POSIXct("2019-09-01"),
+                    ymin = 0, ymax = Inf),
+                fill = "grey87",
+                color = NA) +
+      geom_rect(aes(xmin = as.POSIXct("2020-02-17"),
+                    xmax = as.POSIXct("2020-03-10"),
+                    ymin = 0, ymax = Inf),
+                fill = "grey87",
+                color = NA) +
+      geom_rect(aes(xmin = as.POSIXct("2020-08-21"),
+                    xmax = as.POSIXct("2020-11-12"),
+                    ymin = 0, ymax = Inf),
+                fill = "grey87",
+                color = NA) +
+      geom_point(size = 3) +
+      geom_line(size = 1) +
+      geom_vline(aes(xintercept = as.POSIXct("2018-03-28")),
+                 size = 1,
+                 linetype = "dashed") +
+      geom_vline(aes(xintercept = as.POSIXct("2018-10-25")),
+                 size = 1,
+                 linetype = "dashed") +
+      geom_vline(aes(xintercept = as.POSIXct("2019-02-01")),
+                 size = 1) +
+      geom_vline(aes(xintercept = as.POSIXct("2019-03-14")),
+                 size = 1) +
+      geom_vline(aes(xintercept = as.POSIXct("2020-02-17")),
+                 size = 1) +
+      geom_vline(aes(xintercept = as.POSIXct("2020-03-10")),
+                 size = 1) +
+      scale_colour_manual(name = "Site", values = sitecolours) +
+      cowplot::theme_cowplot() +
+      scale_y_continuous(expand = c(0,0)) +
+      scale_x_datetime(date_breaks = '1 month', date_minor_breaks = '2 weeks', date_labels='%b-%y') +
+      theme(axis.text.x = element_text(angle = 90, vjust=0.3, size=12, color='black')) +
+      labs(y = axis_title,
+           x = "",
+           title = paste(param),
+           subtitle = "Guana River")
+
+    q
+
+  }
+}
+
+
 all_sites_discharge("CHLA_C", chla_y_title) # corrected chlorophyll plot
 all_sites_discharge("SALT", "Salinity (psu)")
+
+wbid_sites_discharge("CHLA_C", wbid = "Lake", chla_y_title)
