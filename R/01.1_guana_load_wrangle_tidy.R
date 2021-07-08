@@ -31,9 +31,11 @@ str(dat)
 dplyr::glimpse(dat) # this one is my favorite to use
 
 # ---- 02 CLEAN and MERGE: important/relevant columns -----------------------------------
+# check the QAQC flags in the data in the `flag` column and prepare to remove any <-3> flags
+# unique(dat$flag) # uncomment to check
 # then left_join() the dat data frame to the dict data frame to add additional columns
 dat2 <- dat %>%
-  dplyr::filter(station_code != "GTMOLNUT_dup") %>%  # remove the 'duplicate' station that was only sampled for a short while
+  dplyr::filter(station_code != "GTMOLNUT_dup" & !grepl("<-3>", flag)) %>%  # remove the 'duplicate' station that was only sampled for a short while and remove any rejected <-3> values
   dplyr::select(unid,
                 station_code,
                 date_sampled,
